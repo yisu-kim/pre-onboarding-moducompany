@@ -1,5 +1,13 @@
 import styled from '@emotion/styled';
 
+const Header: React.FC = () => (
+  <Head>
+    <p>헤더</p>
+    <p>헤더</p>
+    <p>헤더</p>
+  </Head>
+);
+
 const Head = styled.header`
   position: sticky;
   top: 0;
@@ -7,7 +15,5 @@ const Head = styled.header`
   padding: 50px 0;
   background: tomato;
 `;
-
-const Header: React.FC = () => <Head>헤더</Head>;
 
 export default Header;
