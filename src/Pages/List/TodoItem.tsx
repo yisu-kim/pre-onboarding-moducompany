@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable react/self-closing-comp */
 import styled from '@emotion/styled';
 import { Itodo } from 'Pages/Delete/Delete';
@@ -34,6 +35,26 @@ const TrashImage = styled.div`
   cursor: pointer;
 `;
 
+const Symbol = styled.div`
+  width: 20px;
+  height: 20px;
+  background: ${(props) => props.color};
+  border-radius: 50%;
+`;
+
+const StatusDiv = styled.div`
+  padding: 0px 10px;
+  height: 20px;
+  background: ${(props) => props.color};
+  border-radius: 10%;
+  margin-left: 10px;
+  color: #ffffff;
+  font-size: 11px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 interface TodoItemProps {
   data: Itodo;
 }
@@ -44,30 +65,27 @@ const TodoItem = ({ data }: TodoItemProps) => {
   return (
     <TodoItemDiv>
       <TodoItemInfoDiv>
-        <div
-          style={{
-            width: '20px',
-            height: '20px',
-            background: 'red',
-            borderRadius: '50%'
-          }}
-        ></div>
-        <div
-          style={{
-            width: '50px',
-            height: '22px',
-            background: 'green',
-            borderRadius: '10%',
-            marginLeft: '10px',
-            color: '#ffffff',
-            fontSize: '11px',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}
-        >
-          <span>{data.status}</span>
-        </div>
+        {data.importance === 'high' ? (
+          <Symbol color="red" />
+        ) : data.importance === 'low' ? (
+          <Symbol color="green" />
+        ) : (
+          <Symbol color="yellow" />
+        )}
+
+        {data.status === '완료' ? (
+          <StatusDiv color="green">
+            <span>{data.status}</span>
+          </StatusDiv>
+        ) : data.status === '시작안함' ? (
+          <StatusDiv color="#c9c9c9">
+            <span>{data.status}</span>
+          </StatusDiv>
+        ) : (
+          <StatusDiv color="pink">
+            <span>{data.status}</span>
+          </StatusDiv>
+        )}
       </TodoItemInfoDiv>
       <TodoItemInfoDiv>
         <div>
@@ -76,7 +94,9 @@ const TodoItem = ({ data }: TodoItemProps) => {
       </TodoItemInfoDiv>
       <TodoItemInfoDiv>
         <div>
-          <span style={{ fontSize: '5px' }}>{data.dueDateRange}</span>
+          <span style={{ fontSize: '5px' }}>
+            {data.dueDateRange[0]} ~ {data.dueDateRange[1]}
+          </span>
         </div>
         <div style={{ display: 'flex', marginLeft: '65%' }}>
           <SettingImage />
@@ -88,4 +108,3 @@ const TodoItem = ({ data }: TodoItemProps) => {
 };
 
 export default TodoItem;
-

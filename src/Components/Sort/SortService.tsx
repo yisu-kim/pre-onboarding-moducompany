@@ -1,19 +1,12 @@
-import styled from '@emotion/styled';
+/* eslint-disable react/self-closing-comp */
 import { Itodo } from 'Pages/Delete/Delete';
 import { useEffect, useState } from 'react';
 import getDataFromLocalStorage from 'Utils/GetDataFromLocalStorage';
 import saveDataToLocalStorage from 'Utils/SaveDataToLocalStorage';
-import TodoItem from './TodoItem';
-
-
-const TodoItemDiv = styled.div`
-  width: 100%;
-  padding: 10px;
-`;
 
 const initialTodos: Itodo[] = [];
 
-function TodoList() {
+function SortService() {
   const [todoItems, setTodoItems] = useState(initialTodos);
 
   useEffect((): void => {
@@ -25,13 +18,17 @@ function TodoList() {
     setTodoItems(data);
   }, []);
 
-  return (
-    <TodoItemDiv>
-      {todoItems.map((r) => (
-        <TodoItem key={r.id} data={r} />
-      ))}
-    </TodoItemDiv>
-  );
+  const sortDate = () => {
+    const sortD = todoItems.sort();
+    setTodoItems(sortD);
+  };
+
+  const sortImportance = () => {
+    const sortI = todoItems.filter((data) => data.importance);
+    setTodoItems(sortI);
+  };
+
+  return { sortDate, sortImportance };
 }
 
-export default TodoList;
+export default SortService;
