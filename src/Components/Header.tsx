@@ -25,7 +25,7 @@ const Head = styled.header`
       margin-right: 10px;
     }
     span {
-      margin-top: 5px;
+      line-height: 1;
     }
   }
 `;
