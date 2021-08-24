@@ -1,46 +1,131 @@
-# Getting Started with Create React App
+<p align='middle'>
+  <a href="https://www.moduparking.com/">
+    <img src="https://user-images.githubusercontent.com/37607373/130537044-219b7b49-edea-453f-adee-2bbd4d879357.png" alt="Moduparking CI">
+  </a>
+</p>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 프리온보딩 코스 Modu Company 기업 과제
 
-## Available Scripts
+> 간단한 To-Do List App 만들기
 
-In the project directory, you can run:
+<details>
+  <summary>
+    <STRONG>📚 과제 요구사항 보기</STRONG>
+  </summary>
+<div markdown="1">
 
-### `yarn start`
+<h3>공통 가이드</h3>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- `TypeScript` 사용
+- 데이터는 로컬의 dummy data 로 자유롭게 구성할 것 (format: `json`)
+- UI 라이브러리 사용하지 않을 것을 권장
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+<h3>과제 A: To-Do List App 만들기 (UI)</h3>
 
-### `yarn test`
+간단한 투두리스트 애플리케이션에 적합한 UI/UX를 구성할 수 있다.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<h4>필수 구현 사항</h4>
 
-### `yarn build`
+- 투두리스트에 적합한 데이터를 구성할 수 있다
+- Task 데이터 타입에 필수적으로 들어가야할 필드: id, 할일의 제목, 할일 완료 여부 예시 (변수 명은 자유)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```js
+{
+	id: 1,
+	taskName: '자소서 쓰기',
+	isComplete: true
+}
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- 적절한 Header를 만든다.
+- 투두리스트에 적합한 기능을 구현하기 위해 **데이터를 조작**할 수 있다.
+- 스크롤시 Header가 사라지지 않고 화면 상단에 고정되도록 한다.
+- 필수적으로 추가해야할 기능: Task 목록 조회, 새로운 Task 추가, Task 삭제
+- 투두리스트에 적절한 애니메이션을 추가할 수 있다.
+  - Drag and Drop으로 Task의 순서를 변경한다.
+  - 데이터를 변경하지 않고 화면 내에서 Task의 순서만 변경되면 됨
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<h4>선택 구현 사항</h4>
 
-### `yarn eject`
+- 필수 구현 항목에 덧붙여 필요한 **데이터 속성을 추가하여 정의**할 수 있다
+- 최소 요구사항에 덧붙여 구현하고 싶은 기능이 있으면 추가적으로 구현.
+- 최소 요구사항에 덧붙여 추가하고 싶은 UI/UX 및 애니매이션을 추가적으로 구현.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+<h3>과제 B: To-Do List App만들기 (Data)</h3>
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+간단한 투두리스트 애플리케이션에 적합한 데이터 구조를 정의하고 조작할 수 있다.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+<h4>필수 구현 사항</h4>
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- 투두리스트에 적합한 데이터 타입을 구성할 수 있다
+- Task 데이터 타입에 필수적으로 들어가야할 필드:
 
-## Learn More
+  ```jsx
+  const task = {
+  	id: 1
+  	taskName: '자소서 쓰기',
+  	status: status.ONGOING
+  	createdAt: '2021-02-03'
+  	updatedAt: '2021-07-07'
+  }
+  ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+  - id
+  - 할일의 제목
+  - 할일의 상태 (최소 3가지 이상의 상태)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+    - 예시 (변수 명은 자유)
+
+      ```jsx
+      const status = {
+      	FINISHED = '완료',
+      	ONGOING = '진행중',
+      	NOT_STARTED = '시작안함'
+      }
+      ```
+
+  - 생성일
+  - 업데이트일 (상태변경일)
+
+- 투두리스트에 적합한 기능을 구현하기 위해 데이터를 조작할 수 있다.
+- 필수 기능:
+  - Task 목록 조회
+  - 새로운 Task 추가
+  - Task 삭제
+- 최소 두가지 이상의 조건으로 Task를 필터링 (ex. 상태, 생성일, 생성자, 중요도)
+- Task의 상태 변경 (ex. 진행중 → 완료)
+
+<h4>선택 구현 사항</h4>
+
+- 최소 요구사항에 덧붙여 필요한 데이터 속성을 추가하여 정의할 수 있다
+- 최소 요구사항에 덧붙여 구현하고 싶은 기능이 있으면 추가적으로 구현.
+- 최소 요구사항에 덧붙여 추가하고 싶은 투두리스트에 적절한 UI/UX를 추가할 수 있다.
+
+</div>
+</details>
+<br/>
+
+## 🚀 배포
+
+Demo Link:
+
+## 💁🏻‍♂ 실행 방법
+
+### 설치
+
+`npm install`
+
+### 실행
+
+`npm start`
+
+## 🗂 구현 목록
+
+## 😀 프로젝트 멤버
+
+| 이름   | 담당 |
+| ------ | ---- |
+| 윤해은 |      |
+| 민유지 |      |
+| 길용성 |      |
+| 김이수 |      |
