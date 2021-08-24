@@ -27,14 +27,15 @@ function SortService() {
   };
 
   const sortDate = () => {
-    const sortD = todoItems.sort((a, b) =>
+    const sortD = [...todoItems].sort((a, b) =>
       a.createdAt.localeCompare(b.createdAt)
     );
+
     return sortD;
   };
 
   const sortImportance = () => {
-    const sortI = todoItems.sort((a, b) =>
+    const sortI = [...todoItems].sort((a, b) =>
       a.importance.localeCompare(b.importance)
     );
     return sortI;

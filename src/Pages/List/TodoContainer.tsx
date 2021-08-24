@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/no-onchange */
 import styled from '@emotion/styled';
 import SortService from 'Components/Sort/SortService';
@@ -12,24 +13,23 @@ const TodoSeletedDiv = styled.div`
 const initialTodos: Itodo[] = [];
 
 const TodoContainer = () => {
-  const [sortState, setSortState] = useState('Date');
+  const [sortState, setSortState] = useState('basic');
   const [todoItems, setTodoItems] = useState(initialTodos);
   const { fetchData, sortDate, sortImportance } = SortService();
 
   const sortChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     setSortState(e.target.value);
   };
-
   function todoSort(selectName: string) {
     switch (selectName) {
       case 'basic':
-        setTodoItems(fetchData);
+        setTodoItems(() => fetchData());
         break;
       case 'Date':
-        setTodoItems(sortDate);
+        setTodoItems(() => sortDate());
         break;
       case 'Importance':
-        setTodoItems(sortImportance);
+        setTodoItems(() => sortImportance());
         break;
       default:
     }
