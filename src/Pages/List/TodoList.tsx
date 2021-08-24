@@ -1,33 +1,20 @@
 import styled from '@emotion/styled';
 import { Itodo } from 'Pages/Delete/Delete';
-import { useEffect, useState } from 'react';
-import getDataFromLocalStorage from 'Utils/GetDataFromLocalStorage';
-import saveDataToLocalStorage from 'Utils/SaveDataToLocalStorage';
 import TodoItem from './TodoItem';
-
 
 const TodoItemDiv = styled.div`
   width: 100%;
   padding: 10px;
 `;
 
-const initialTodos: Itodo[] = [];
+interface TodoItemProps {
+  data: Itodo[];
+}
 
-function TodoList() {
-  const [todoItems, setTodoItems] = useState(initialTodos);
-
-  useEffect((): void => {
-    fetch('/Data/Data.json')
-      .then((res) => res.json())
-      .then((data) => saveDataToLocalStorage('data', data));
-
-    const data = getDataFromLocalStorage('data');
-    setTodoItems(data);
-  }, []);
-
+function TodoList({ data }: TodoItemProps) {
   return (
     <TodoItemDiv>
-      {todoItems.map((r) => (
+      {data.map((r) => (
         <TodoItem key={r.id} data={r} />
       ))}
     </TodoItemDiv>

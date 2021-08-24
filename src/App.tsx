@@ -1,7 +1,7 @@
 import { Global } from '@emotion/react';
 import AppLayout from 'Components/AppLayout';
 import Delete from 'Pages/Delete/Delete';
-import TodoList from 'Pages/List/TodoList';
+import TodoContainer from 'Pages/List/TodoContainer';
 import Reset from 'Styles/Reset';
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
     <>
       <Global styles={Reset} />
       <AppLayout>
-        <TodoList />
+        <TodoContainer />
         <Delete />
       </AppLayout>
     </>

@@ -1,5 +1,4 @@
 /* eslint-disable no-nested-ternary */
-/* eslint-disable react/self-closing-comp */
 import styled from '@emotion/styled';
 import { Itodo } from 'Pages/Delete/Delete';
 
@@ -59,16 +58,14 @@ interface TodoItemProps {
   data: Itodo;
 }
 
-const TodoItem = ({ data }: TodoItemProps) => {
-  // eslint-disable-next-line no-console
-  console.log(data);
+function TodoItem({ data }: TodoItemProps) {
   return (
     <TodoItemDiv>
       <TodoItemInfoDiv>
-        {data.importance === 'high' ? (
-          <Symbol color="red" />
-        ) : data.importance === 'low' ? (
+        {data.importance === '3' ? (
           <Symbol color="green" />
+        ) : data.importance === '1' ? (
+          <Symbol color="red" />
         ) : (
           <Symbol color="yellow" />
         )}
@@ -105,6 +102,6 @@ const TodoItem = ({ data }: TodoItemProps) => {
       </TodoItemInfoDiv>
     </TodoItemDiv>
   );
-};
+}
 
 export default TodoItem;

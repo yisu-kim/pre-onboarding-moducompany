@@ -7,28 +7,9 @@
     "createdAt": "2021-08-23",
     "updatedAt": "2021-09-07",
     "dueDateRange": ["2021-08-23", "2021-09-21"],
-    "importance": "high"
+    "importance": "1"
   },
-  {
-    "id": 2,
-    "taskName": "하얀마인드 과제하기",
-    "isComplete": false,
-    "status": "진행중",
-    "createdAt": "2021-08-24",
-    "updatedAt": "2021-09-08",
-    "dueDateRange": ["2021-08-24", "2021-09-21"],
-    "importance": "medium"
-  },
-  {
-    "id": 3,
-    "taskName": "미스터카멜 과제하기",
-    "isComplete": true,
-    "status": "완료",
-    "createdAt": "2021-08-25",
-    "updatedAt": "2021-09-09",
-    "dueDateRange": ["2021-08-25", "2021-09-21"],
-    "importance": "low"
-  },
+  
   {
     "id": 4,
     "taskName": "자란다 과제하기",
@@ -37,7 +18,7 @@
     "createdAt": "2021-08-26",
     "updatedAt": "2021-09-07",
     "dueDateRange": ["2021-08-26", "2021-09-21"],
-    "importance": "medium"
+    "importance": "2"
   },
   {
     "id": 5,
@@ -47,7 +28,7 @@
     "createdAt": "2021-08-27",
     "updatedAt": "2021-09-07",
     "dueDateRange": ["2021-08-27", "2021-09-21"],
-    "importance": "high"
+    "importance": "1"
   },
   {
     "id": 6,
@@ -57,7 +38,27 @@
     "createdAt": "2021-08-28",
     "updatedAt": "2021-09-07",
     "dueDateRange": ["2021-08-28", "2021-09-21"],
-    "importance": "low"
+    "importance": "3"
+  },
+  {
+    "id": 2,
+    "taskName": "하얀마인드 과제하기",
+    "isComplete": false,
+    "status": "진행중",
+    "createdAt": "2021-08-24",
+    "updatedAt": "2021-09-08",
+    "dueDateRange": ["2021-08-24", "2021-09-21"],
+    "importance": "2"
+  },
+  {
+    "id": 3,
+    "taskName": "미스터카멜 과제하기",
+    "isComplete": true,
+    "status": "완료",
+    "createdAt": "2021-08-25",
+    "updatedAt": "2021-09-09",
+    "dueDateRange": ["2021-08-25", "2021-09-21"],
+    "importance": "3"
   },
   {
     "id": 7,
@@ -67,7 +68,7 @@
     "createdAt": "2021-08-29",
     "updatedAt": "2021-09-07",
     "dueDateRange": ["2021-08-29", "2021-09-21"],
-    "importance": "medium"
+    "importance": "2"
   },
   {
     "id": 8,
@@ -77,7 +78,7 @@
     "createdAt": "2021-08-30",
     "updatedAt": "2021-09-07",
     "dueDateRange": ["2021-08-30", "2021-09-21"],
-    "importance": "high"
+    "importance": "1"
   },
   {
     "id": 9,
@@ -87,7 +88,7 @@
     "createdAt": "2021-08-31",
     "updatedAt": "2021-09-07",
     "dueDateRange": ["2021-08-31", "2021-09-21"],
-    "importance": "low"
+    "importance": "3"
   },
   {
     "id": 10,
@@ -97,6 +98,6 @@
     "createdAt": "2021-09-01",
     "updatedAt": "2021-09-07",
     "dueDateRange": ["2021-09-01", "2021-09-21"],
-    "importance": "medium"
+    "importance": "2"
   }
 ]

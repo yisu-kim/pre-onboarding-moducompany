@@ -8,7 +8,6 @@ const initialTodos: Itodo[] = [];
 
 function SortService() {
   const [todoItems, setTodoItems] = useState(initialTodos);
-
   useEffect((): void => {
     fetch('/Data/Data.json')
       .then((res) => res.json())
@@ -18,17 +17,33 @@ function SortService() {
     setTodoItems(data);
   }, []);
 
+  const fetchData = () => {
+    fetch('/Data/Data.json')
+      .then((res) => res.json())
+      .then((data) => saveDataToLocalStorage('data', data));
+
+    const data = getDataFromLocalStorage('data');
+    return data;
+  };
+
   const sortDate = () => {
-    const sortD = todoItems.sort();
-    setTodoItems(sortD);
+    const sortD = todoItems.sort((a, b) =>
+      a.createdAt.localeCompare(b.createdAt)
+    );
+    return sortD;
   };
 
   const sortImportance = () => {
-    const sortI = todoItems.filter((data) => data.importance);
-    setTodoItems(sortI);
+    const sortI = todoItems.sort((a, b) =>
+      a.importance.localeCompare(b.importance)
+    );
+    return sortI;
   };
 
-  return { sortDate, sortImportance };
+  //   문자열 high / medium / low 를 number형태롤 정렬을 어떻게 해야할지 모르겠네요
+  //  high=3; medium=2; low =1; 이런식으로 본적은 있긴하나..
+
+  return { fetchData, sortDate, sortImportance };
 }
 
 export default SortService;
