@@ -1,6 +1,8 @@
-import React, { useEffect, useState, useCallback } from 'react';
+/* eslint-disable react/self-closing-comp */
+import { useEffect, useState } from 'react';
 import getDataFromLocalStorage from 'Utils/GetDataFromLocalStorage';
 import saveDataToLocalStorage from 'Utils/SaveDataToLocalStorage';
+import TodoList from './TodoList';
 
 export type Itodo = {
   id: number;
@@ -15,7 +17,7 @@ export type Itodo = {
 
 const initialTodos: Itodo[] = [];
 
-export default function Delete() {
+function TodoContainer() {
   const [todoItems, setTodoItems] = useState(initialTodos);
 
   useEffect((): void => {
@@ -27,27 +29,9 @@ export default function Delete() {
     setTodoItems(data);
   }, []);
 
-  const handleDeleteClick = (id: number) => {
-    setTodoItems((prev) => prev.filter((item) => item.id !== id));
-  };
+  const TodoRender = todoItems.map((r) => <TodoList key={r.id} data={r} />);
 
-  const saveData = useCallback(() => {
-    saveDataToLocalStorage('data', todoItems);
-  }, [todoItems]);
-
-  useEffect(() => {
-    saveData();
-  }, [saveData]);
-
-  return (
-    <div>
-      {/* {todoItems.map(({ id, taskName }) => (
-        <div key={id}>
-          <div>{id}</div>
-          <div>{taskName}</div>
-          <input type="button" onClick={() => handleDeleteClick(id)} />
-        </div>
-      ))} */}
-    </div>
-  );
+  return <div>{TodoRender}</div>;
 }
+
+export default TodoContainer;
