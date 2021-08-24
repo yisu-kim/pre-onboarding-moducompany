@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import getDataFromLocalStorage from 'Utils/GetDataFromLocalStorage';
 import saveDataToLocalStorage from 'Utils/SaveDataToLocalStorage';
 
@@ -10,7 +10,7 @@ export interface Itodo {
   createdAt: string;
   updatedAt: string;
   dueDateRange: string[];
-  importance: string;
+  importance: number;
 }
 
 const initialTodos: Itodo[] = [];
@@ -19,12 +19,12 @@ export default function Delete() {
   const [todoItems, setTodoItems] = useState(initialTodos);
   const [contentEditMode, setContentEditMode] = useState<boolean>(false);
   const [editedItemId, setEditedItemId] = useState<number>(0);
+  const inputEl = useRef<HTMLInputElement>(null);
 
   useEffect((): void => {
     fetch('/Data/Data.json')
       .then((res) => res.json())
       .then((data) => saveDataToLocalStorage('data', data));
-
     const data = getDataFromLocalStorage('data');
     setTodoItems(data);
   }, []);
@@ -33,14 +33,52 @@ export default function Delete() {
     setTodoItems((prev) => prev.filter((item) => item.id !== id));
   };
 
-  const handleContentEditClick = (id: number) => {
+  const handleTaskNameEditClick = (id: number) => {
     setEditedItemId(id);
-    setContentEditMode((prev) => !prev);
+    setContentEditMode(true);
   };
 
-  const handleStatusEditClick = (id: number) => {};
+  const handleEndTaskNameEditClick = (id: number) => {
+    const newTaskName = inputEl.current?.value || '';
+    if (newTaskName.length > 0) todoItemsStateEdit(id, 'taskName', newTaskName);
+
+    setContentEditMode(false);
+  };
 
   const handleImportanceEditClick = (id: number) => {};
+
+  const handleStatusEditClick = (id: number) => {
+    const currentStatus =
+      todoItems.find((item) => item.id === id) || todoItems[id + 1];
+    statusEdit(id, currentStatus);
+  };
+
+  const handleEnterPress = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    id: number
+  ) => {
+    if (e.key === 'Enter') {
+      handleEndTaskNameEditClick(id);
+    }
+  };
+
+  const statusEdit = (id: number, currentStatus: Itodo) => {
+    if (currentStatus.status === '완료') {
+      todoItemsStateEdit(id, 'status', '시작 안함');
+    } else if (currentStatus.status === '시작 안함') {
+      todoItemsStateEdit(id, 'status', '진행중');
+    } else {
+      todoItemsStateEdit(id, 'status', '완료');
+    }
+  };
+
+  const todoItemsStateEdit = (id: number, element: string, content: string) => {
+    setTodoItems((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, [element]: content } : item
+      )
+    );
+  };
 
   const saveData = useCallback(() => {
     saveDataToLocalStorage('data', todoItems);
@@ -56,19 +94,35 @@ export default function Delete() {
         <div key={id}>
           <div>{id}</div>
           {contentEditMode && id === editedItemId ? (
-            <input placeholder="To do what" />
+            <input
+              placeholder="To do what"
+              onKeyPress={(e) => handleEnterPress(e, id)}
+              ref={inputEl}
+            />
           ) : (
-            <div>{taskName}</div>
+            <div>taskName: {taskName}</div>
           )}
-          <div>{status}</div>
-          <div>{dueDateRange}</div>
-          <div>{importance}</div>
+          <div>status: {status}</div>
+          <div>
+            dueDateRange: {dueDateRange[0]} ~ {dueDateRange[1]}
+          </div>
+          <div>importance: {importance}</div>
           <button type="button" onClick={() => handleDeleteClick(id)}>
             삭제
           </button>
-          <button type="button" onClick={() => handleContentEditClick(id)}>
-            내용 수정
-          </button>
+          {contentEditMode && id === editedItemId ? (
+            <button
+              type="button"
+              onClick={() => handleEndTaskNameEditClick(id)}
+            >
+              수정 완료
+            </button>
+          ) : (
+            <button type="button" onClick={() => handleTaskNameEditClick(id)}>
+              내용 수정
+            </button>
+          )}
+
           <button type="button" onClick={() => handleStatusEditClick(id)}>
             상태 수정
           </button>
