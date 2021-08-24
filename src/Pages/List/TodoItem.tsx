@@ -1,11 +1,12 @@
 /* eslint-disable react/self-closing-comp */
 import styled from '@emotion/styled';
+import { Itodo } from 'Pages/Delete/Delete';
 
 const TodoItemDiv = styled.div`
   padding: 20px;
   background-color: #ffffff;
-  width: 600px;
   border-radius: 10px;
+  margin: 20px;
 `;
 
 const TodoItemInfoDiv = styled.div`
@@ -20,6 +21,7 @@ const SettingImage = styled.div`
   width: 20px;
   height: 20px;
   margin: 0px 5px;
+  cursor: pointer;
 `;
 
 const TrashImage = styled.div`
@@ -29,9 +31,15 @@ const TrashImage = styled.div`
   width: 20px;
   height: 20px;
   margin: 0px 5px;
+  cursor: pointer;
 `;
 
-function TodoItem({ data }: any) {
+interface TodoItemProps {
+  data: Itodo;
+}
+
+const TodoItem = ({ data }: TodoItemProps) => {
+  // eslint-disable-next-line no-console
   console.log(data);
   return (
     <TodoItemDiv>
@@ -58,17 +66,17 @@ function TodoItem({ data }: any) {
             alignItems: 'center'
           }}
         >
-          <span>진행중</span>
+          <span>{data.status}</span>
         </div>
       </TodoItemInfoDiv>
       <TodoItemInfoDiv>
         <div>
-          <span>자소서 쓰기 - 모두의 컴퍼니, 자란다, 원티드, 위코드 등등</span>
+          <span>{data.taskName}</span>
         </div>
       </TodoItemInfoDiv>
       <TodoItemInfoDiv>
         <div>
-          <span style={{ fontSize: '5px' }}>2021.08.23 ~ 2021.08.32</span>
+          <span style={{ fontSize: '5px' }}>{data.dueDateRange}</span>
         </div>
         <div style={{ display: 'flex', marginLeft: '65%' }}>
           <SettingImage />
@@ -77,6 +85,7 @@ function TodoItem({ data }: any) {
       </TodoItemInfoDiv>
     </TodoItemDiv>
   );
-}
+};
 
 export default TodoItem;
+

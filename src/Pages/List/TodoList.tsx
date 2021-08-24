@@ -1,20 +1,35 @@
-import React from 'react';
 import styled from '@emotion/styled';
+import { Itodo } from 'Pages/Delete/Delete';
+import { useEffect, useState } from 'react';
+import getDataFromLocalStorage from 'Utils/GetDataFromLocalStorage';
+import saveDataToLocalStorage from 'Utils/SaveDataToLocalStorage';
 import TodoItem from './TodoItem';
 
-const TodoListDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
+const initialTodos: Itodo[] = [];
+
+const TodoItemDiv = styled.div`
+  width: 100%;
+  padding: 10px;
 `;
-function TodoList({ data }: any) {
-  console.log(data);
-  // eslint-disable-next-line react/self-closing-comp
+
+function TodoList() {
+  const [todoItems, setTodoItems] = useState(initialTodos);
+
+  useEffect((): void => {
+    fetch('/Data/Data.json')
+      .then((res) => res.json())
+      .then((data) => saveDataToLocalStorage('data', data));
+
+    const data = getDataFromLocalStorage('data');
+    setTodoItems(data);
+  }, []);
+
   return (
-    <TodoListDiv>
-      <TodoItem data={data} />
-    </TodoListDiv>
+    <TodoItemDiv>
+      {todoItems.map((r) => (
+        <TodoItem key={r.id} data={r} />
+      ))}
+    </TodoItemDiv>
   );
 }
 
