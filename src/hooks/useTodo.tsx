@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from 'react';
 
 import { Itodo } from 'Pages/Delete/Delete';
-import getLastTodoId from 'Utils/TodoForm';
+import { getLastTodoId } from 'Utils/TodoForm';
 
 interface ITodoItem extends Omit<Itodo, 'dueDateRange'> {
   dueDateRange: string[] | null;
