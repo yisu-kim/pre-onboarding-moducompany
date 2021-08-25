@@ -36,11 +36,7 @@ const TodoContainer = () => {
   }
 
   useEffect(() => {
-    async function fetch() {
-      const data = await fetchData;
-      setTodoItems(data);
-    }
-    fetch();
+    setTodoItems(fetchData);
   }, []);
 
   useEffect(() => {
@@ -56,7 +52,7 @@ const TodoContainer = () => {
           <option value="Importance">중요도순</option>
         </select>
       </TodoSeletedDiv>
-      <TodoList data={todoItems} />
+      <TodoList todoData={todoItems} />
     </div>
   );
 };

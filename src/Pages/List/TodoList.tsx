@@ -8,13 +8,13 @@ const TodoItemDiv = styled.div`
 `;
 
 interface TodoItemProps {
-  data: Itodo[];
+  todoData: Itodo[];
 }
 
-function TodoList({ data }: TodoItemProps) {
+function TodoList({ todoData }: TodoItemProps) {
   return (
     <TodoItemDiv>
-      {data.map((r) => (
+      {todoData.map((r) => (
         <TodoItem key={r.id} data={r} />
       ))}
     </TodoItemDiv>

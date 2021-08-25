@@ -26,6 +26,7 @@ function SortService() {
     return data;
   };
 
+
   const sortDate = () => {
     const sortD = [...todoItems].sort((a, b) =>
       a.createdAt.localeCompare(b.createdAt)
@@ -40,9 +41,6 @@ function SortService() {
     );
     return sortI;
   };
-
-  //   문자열 high / medium / low 를 number형태롤 정렬을 어떻게 해야할지 모르겠네요
-  //  high=3; medium=2; low =1; 이런식으로 본적은 있긴하나..
 
   return { fetchData, sortDate, sortImportance };
 }
