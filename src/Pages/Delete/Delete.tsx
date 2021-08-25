@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
+import styled from '@emotion/styled';
 import getDataFromLocalStorage from 'Utils/GetDataFromLocalStorage';
 import saveDataToLocalStorage from 'Utils/SaveDataToLocalStorage';
 
@@ -10,7 +11,7 @@ export interface Itodo {
   createdAt: string;
   updatedAt: string;
   dueDateRange: string[];
-  importance: number;
+  importance: string;
 }
 
 const initialTodos: Itodo[] = [];
@@ -87,12 +88,12 @@ export default function Delete() {
       todoItems.find((item) => item.id === id) || todoItems[id + 1];
     // statusEdit(id, current);
 
-    if (current.importance === 1) {
-      todoItemsStateEdit(id, 'importance', 2);
-    } else if (current.importance === 2) {
-      todoItemsStateEdit(id, 'importance', 3);
+    if (current.importance === '1') {
+      todoItemsStateEdit(id, 'importance', '2');
+    } else if (current.importance === '2') {
+      todoItemsStateEdit(id, 'importance', '3');
     } else {
-      todoItemsStateEdit(id, 'importance', 1);
+      todoItemsStateEdit(id, 'importance', '1');
     }
   };
 
@@ -106,50 +107,72 @@ export default function Delete() {
     saveData();
   }, [saveData]);
 
-  return (
-    <div>
-      {todoItems.map(({ id, taskName, status, dueDateRange, importance }) => (
-        <div key={id}>
-          <div>{id}</div>
-          {contentEditMode && id === editedItemId ? (
-            <input
-              placeholder="To do what"
-              onKeyPress={(e) => handleEnterPress(e, id)}
-              ref={inputEl}
-            />
-          ) : (
-            <div>taskName: {taskName}</div>
-          )}
-          <div>status: {status}</div>
-          <div>
-            dueDateRange: {dueDateRange[0]} ~ {dueDateRange[1]}
-          </div>
-          <div>importance: {importance}</div>
-          <button type="button" onClick={() => handleDeleteClick(id)}>
-            삭제
-          </button>
-          {contentEditMode && id === editedItemId ? (
-            <button
-              type="button"
-              onClick={() => handleEndTaskNameEditClick(id)}
-            >
-              수정 완료
-            </button>
-          ) : (
-            <button type="button" onClick={() => handleTaskNameEditClick(id)}>
-              내용 수정
-            </button>
-          )}
+  const handleTodoItems = (newTodoItems: Itodo[]) => {
+    setTodoItems(newTodoItems);
+  };
 
-          <button type="button" onClick={() => handleStatusEditClick(id)}>
-            상태 수정
-          </button>
-          <button type="button" onClick={() => handleImportanceEditClick(id)}>
-            중요도 수정
-          </button>
-          <button type="button">DueDateRange 수정</button>
-        </div>
-      ))}
-    </div>
+  return (
+    <>
+      <div>
+        {todoItems.map(({ id, taskName, status, dueDateRange, importance }) => (
+          <div key={id}>
+            <div>{id}</div>
+            {contentEditMode && id === editedItemId ? (
+              <input
+                placeholder="To do what"
+                onKeyPress={(e) => handleEnterPress(e, id)}
+                ref={inputEl}
+              />
+            ) : (
+              <div>taskName: {taskName}</div>
+            )}
+            <div>status: {status}</div>
+            <div>
+              dueDateRange: {dueDateRange[0]} ~ {dueDateRange[1]}
+            </div>
+            <div>importance: {importance}</div>
+            <button type="button" onClick={() => handleDeleteClick(id)}>
+              삭제
+            </button>
+            {contentEditMode && id === editedItemId ? (
+              <button
+                type="button"
+                onClick={() => handleEndTaskNameEditClick(id)}
+              >
+                수정 완료
+              </button>
+            ) : (
+              <button type="button" onClick={() => handleTaskNameEditClick(id)}>
+                내용 수정
+              </button>
+            )}
+
+            <button type="button" onClick={() => handleStatusEditClick(id)}>
+              상태 수정
+            </button>
+            <button type="button" onClick={() => handleImportanceEditClick(id)}>
+              중요도 수정
+            </button>
+            <button type="button">DueDateRange 수정</button>
+          </div>
+        ))}
+      </div>
+    </>
   );
 }
+
+const TodoList = styled.ul`
+  padding: 20px;
+`;
+
+const TodoItem = styled.li`
+  background-color: white;
+  margin: 15px 0;
+  list-style: none;
+  &:first-of-type {
+    margin-top: 0;
+  }
+  & li:last-of-type {
+    margin-bottom: 0;
+  }
+`;
