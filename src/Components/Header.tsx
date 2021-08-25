@@ -1,12 +1,13 @@
 import styled from '@emotion/styled';
-
 import { SiTodoist } from 'react-icons/si';
+import TodoForm from './TodoForm';
 
 const Header: React.FC = () => (
   <Head>
     <h1>
       <SiTodoist /> <span>모두의 플래너</span>
     </h1>
+    <TodoForm />
   </Head>
 );
 
