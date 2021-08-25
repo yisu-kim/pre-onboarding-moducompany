@@ -47,6 +47,10 @@ const TodoContainer = () => {
     todoSort(sortState);
   }, [sortState]);
 
+  const handleTodoItems = (newTodoItems: Itodo[]) => {
+    setTodoItems(newTodoItems);
+  };
+
   return (
     <div>
       <TodoSeletedDiv>
@@ -56,7 +60,7 @@ const TodoContainer = () => {
           <option value="Importance">중요도순</option>
         </select>
       </TodoSeletedDiv>
-      <TodoList todoData={todoItems} />
+      <TodoList todoData={todoItems} handleTodoItems={handleTodoItems} />
     </div>
   );
 };
