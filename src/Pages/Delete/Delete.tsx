@@ -58,6 +58,14 @@ export default function Delete() {
     setContentEditMode(false);
   };
 
+  // const handleImportanceEditClick = (id: number) => {};
+
+  // const handleStatusEditClick = (id: number) => {
+  //   const currentStatus =
+  //     todoItems.find((item) => item.id === id) || todoItems[id + 1];
+  //   statusEdit(id, currentStatus);
+  // };
+
   const handleEnterPress = (
     e: React.KeyboardEvent<HTMLInputElement>,
     id: number
