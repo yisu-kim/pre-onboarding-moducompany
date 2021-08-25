@@ -36,7 +36,11 @@ const TodoContainer = () => {
   }
 
   useEffect(() => {
-    setTodoItems(fetchData);
+    async function fetch() {
+      const data = await fetchData;
+      setTodoItems(data);
+    }
+    fetch();
   }, []);
 
   useEffect(() => {
