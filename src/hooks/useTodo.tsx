@@ -15,7 +15,7 @@ const initialTodo = (id: number): ITodoItem => ({
   createdAt: '',
   updatedAt: '',
   dueDateRange: null,
-  importance: 1
+  importance: '1'
 });
 
 const useTodo = () => {

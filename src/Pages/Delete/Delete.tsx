@@ -10,7 +10,7 @@ export type Itodo = {
   createdAt: string;
   updatedAt: string;
   dueDateRange: string[];
-  importance: number;
+  importance: string;
 };
 
 const initialTodos: Itodo[] = [];
