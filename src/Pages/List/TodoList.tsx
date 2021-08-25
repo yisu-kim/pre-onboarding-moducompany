@@ -25,7 +25,11 @@ function TodoList({ todoData, handleTodoItems }: TodoItemProps) {
             itemIndex={index}
             updateItemArray={handleTodoItems}
           >
-            <TodoItem data={todo} />
+            <TodoItem
+              data={todo}
+              handleTodoItems={handleTodoItems}
+              wholeData={array}
+            />
           </DragNDrop>
         ))}
       </TodoItemDiv>

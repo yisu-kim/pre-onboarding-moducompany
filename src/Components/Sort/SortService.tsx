@@ -1,33 +1,20 @@
 /* eslint-disable react/self-closing-comp */
-import { Itodo } from 'Pages/Delete/Delete';
-import { useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import getDataFromLocalStorage from 'Utils/GetDataFromLocalStorage';
-import saveDataToLocalStorage from 'Utils/SaveDataToLocalStorage';
-
-const initialTodos: Itodo[] = [];
 
 function SortService() {
-  const [todoItems, setTodoItems] = useState(initialTodos);
-  useEffect((): void => {
-    fetch('/Data/Data.json')
-      .then((res) => res.json())
-      .then((data) => saveDataToLocalStorage('data', data));
-
-    const data = getDataFromLocalStorage('data');
-    setTodoItems(data);
-  }, []);
-
-  const fetchData = () => {
-    fetch('/Data/Data.json')
-      .then((res) => res.json())
-      .then((data) => saveDataToLocalStorage('data', data));
+  const fetchData = useCallback(() => {
+    // fetch('/Data/Data.json')
+    //   .then((res) => res.json())
+    //   .then((data) => saveDataToLocalStorage('data', data));
 
     const data = getDataFromLocalStorage('data');
     return data;
-  };
+  }, []);
 
   const sortDate = () => {
-    const sortD = [...todoItems].sort((a, b) =>
+    const data = getDataFromLocalStorage('data');
+    const sortD = [...data].sort((a, b) =>
       a.createdAt.localeCompare(b.createdAt)
     );
 
@@ -35,7 +22,8 @@ function SortService() {
   };
 
   const sortImportance = () => {
-    const sortI = [...todoItems].sort((a, b) =>
+    const data = getDataFromLocalStorage('data');
+    const sortI = [...data].sort((a, b) =>
       a.importance.localeCompare(b.importance)
     );
     return sortI;

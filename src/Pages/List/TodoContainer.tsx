@@ -10,6 +10,7 @@ const TodoSeletedDiv = styled.div`
   height: 10%;
   background-color: #c9c9c9;
 `;
+
 const initialTodos: Itodo[] = [];
 
 const TodoContainer = () => {
@@ -20,6 +21,7 @@ const TodoContainer = () => {
   const sortChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     setSortState(e.target.value);
   };
+
   function todoSort(selectName: string) {
     switch (selectName) {
       case 'basic':
@@ -36,11 +38,8 @@ const TodoContainer = () => {
   }
 
   useEffect(() => {
-    async function fetch() {
-      const data = await fetchData;
-      setTodoItems(data);
-    }
-    fetch();
+    const k = fetchData;
+    setTodoItems(k);
   }, []);
 
   useEffect(() => {

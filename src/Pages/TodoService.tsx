@@ -160,3 +160,19 @@ export default function Delete() {
     </>
   );
 }
+
+const TodoList = styled.ul`
+  padding: 20px;
+`;
+
+const TodoItem = styled.li`
+  background-color: white;
+  margin: 15px 0;
+  list-style: none;
+  &:first-of-type {
+    margin-top: 0;
+  }
+  & li:last-of-type {
+    margin-bottom: 0;
+  }
+`;
