@@ -96,6 +96,8 @@ export default function Delete() {
     }
   };
 
+  const handleEditDueDateRangeClick = () => {};
+
   const saveData = useCallback(() => {
     saveDataToLocalStorage('data', todoItems);
   }, [todoItems]);
@@ -145,6 +147,7 @@ export default function Delete() {
           <button type="button" onClick={() => handleImportanceEditClick(id)}>
             중요도 수정
           </button>
+          <button type="button">DueDateRange 수정</button>
         </div>
       ))}
     </div>
