@@ -18,7 +18,7 @@ const initialTodo = (id: number): ITodoItem => ({
   createdAt: dateFormat({ targetDate: new Date() }),
   updatedAt: dateFormat({ targetDate: new Date() }),
   dueDateRange: null,
-  importance: '1'
+  importance: ''
 });
 
 const useTodo = () => {
@@ -42,7 +42,11 @@ const useTodo = () => {
     []
   );
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
 
     handleChange({ name, value });
@@ -55,7 +59,7 @@ const useTodo = () => {
     [handleChange]
   );
 
-  return { todo, handleInputChange, handleDateRangeChange };
+  return { todo, handleChange, handleInputChange, handleDateRangeChange };
 };
 
 export default useTodo;
