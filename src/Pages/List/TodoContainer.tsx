@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import SortService from 'Components/Sort/SortService';
 import { Itodo } from 'Pages/Delete/Delete';
 import React, { useState, useEffect } from 'react';
+import saveDataToLocalStorage from 'Utils/SaveDataToLocalStorage';
 import TodoList from './TodoList';
 
 const TodoSeletedDiv = styled.div`
@@ -28,19 +29,14 @@ const TodoContainer = () => {
         setTodoItems(() => fetchData());
         break;
       case 'Date':
-        setTodoItems(() => sortDate());
+        setTodoItems((current) => sortDate(current));
         break;
       case 'Importance':
-        setTodoItems(() => sortImportance());
+        setTodoItems((current) => sortImportance(current));
         break;
       default:
     }
   }
-
-  useEffect(() => {
-    const k = fetchData;
-    setTodoItems(k);
-  }, []);
 
   useEffect(() => {
     todoSort(sortState);

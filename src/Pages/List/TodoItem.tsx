@@ -23,6 +23,7 @@ function TodoItem({ data, wholeData, handleTodoItems }: TodoItemProps) {
       item.id === id ? { ...item, [element]: content } : item
     );
     handleTodoItems(editedData);
+    saveDataToLocalStorage('data', editedData);
   };
 
   const handleDelete = (id: number) => {
@@ -33,7 +34,6 @@ function TodoItem({ data, wholeData, handleTodoItems }: TodoItemProps) {
   const handleTaskNameEdit = (id: number) => {
     const newTaskName = inputEl.current?.value || '';
     if (newTaskName.length > 0) todoItemsStateEdit(id, 'taskName', newTaskName);
-
     setTaskNameEditMode(false);
   };
 
@@ -70,13 +70,16 @@ function TodoItem({ data, wholeData, handleTodoItems }: TodoItemProps) {
     }
   };
 
-  const saveData = useCallback(() => {
+  const saveData = () => {
     saveDataToLocalStorage('data', wholeData);
-  }, [wholeData]);
+  };
+  // const saveData = useCallback(() => {
+  //   saveDataToLocalStorage('data', wholeData);
+  // }, [wholeData]);
 
-  useEffect(() => {
-    saveData();
-  }, [saveData]);
+  // useEffect(() => {
+  //   saveData();
+  // }, [saveData]);
 
   return (
     <TodoItemDiv>
