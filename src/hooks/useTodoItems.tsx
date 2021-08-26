@@ -7,7 +7,7 @@ import saveDataToLocalStorage from 'Utils/SaveDataToLocalStorage';
 const initialTodos: Itodo[] = [];
 
 const useTodoItems = () => {
-  const [todoItemsReal, setTodoItemsReal] = useState(initialTodos);
+  const [todoItems, setTodoItems] = useState(initialTodos);
 
   useEffect(() => {
     fetch('/Data/Data.json')
@@ -15,7 +15,7 @@ const useTodoItems = () => {
       .then((data) => saveDataToLocalStorage('data', data));
 
     const data = getDataFromLocalStorage('data');
-    setTodoItemsReal(data);
+    setTodoItems(data);
   }, []);
 
   const todoItemsStateEdit = (
@@ -23,16 +23,16 @@ const useTodoItems = () => {
     element: string,
     content: string | number
   ) => {
-    const editedData = todoItemsReal.map((item) =>
+    const editedData = todoItems.map((item) =>
       item.id === id ? { ...item, [element]: content } : item
     );
-    setTodoItemsReal(editedData);
+    setTodoItems(editedData);
     saveDataToLocalStorage('data', editedData);
   };
 
   const deleteTodo = (id: number) => {
-    const leftData = todoItemsReal.filter((item) => item.id !== id);
-    setTodoItemsReal(leftData);
+    const leftData = todoItems.filter((item) => item.id !== id);
+    setTodoItems(leftData);
     saveDataToLocalStorage('data', leftData);
   };
 
@@ -41,7 +41,7 @@ const useTodoItems = () => {
   };
 
   const editStatus = (id: number) => {
-    const currentTodo = todoItemsReal.find((item) => item.id === id);
+    const currentTodo = todoItems.find((item) => item.id === id);
 
     if (currentTodo?.status === '완료') {
       todoItemsStateEdit(id, 'status', '시작 안함');
@@ -53,7 +53,7 @@ const useTodoItems = () => {
   };
 
   const editImportance = (id: number) => {
-    const currentTodo = todoItemsReal.find((item) => item.id === id);
+    const currentTodo = todoItems.find((item) => item.id === id);
 
     if (currentTodo?.importance === '1') {
       todoItemsStateEdit(id, 'importance', '2');
@@ -65,8 +65,8 @@ const useTodoItems = () => {
   };
 
   return {
-    todoItemsReal,
-    setTodoItemsReal,
+    todoItems,
+    setTodoItems,
     deleteTodo,
     editTaskName,
     editStatus,

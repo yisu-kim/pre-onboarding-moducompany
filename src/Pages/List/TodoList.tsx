@@ -10,8 +10,8 @@ const TodoItemDiv = styled.div`
 `;
 
 interface TodoItemProps {
-  todoData: Itodo[];
-  handleTodoItems: (newTodoItems: Itodo[]) => void;
+  todoItems: Itodo[];
+  setTodoItems: (newTodoItems: Itodo[]) => void;
   enableDrag: boolean;
   deleteTodo: (id: number) => void;
   editTaskName: (id: number, newTaskName: string) => void;
@@ -20,8 +20,8 @@ interface TodoItemProps {
 }
 
 function TodoList({
-  todoData,
-  handleTodoItems,
+  todoItems,
+  setTodoItems,
   enableDrag,
   deleteTodo,
   editTaskName,
@@ -31,27 +31,13 @@ function TodoList({
   return (
     <DragProvider>
       <TodoItemDiv>
-        {/* {todoData.map((todo, index, array) => (
-          <DragNDrop
-            key={todo.id}
-            itemArray={array}
-            itemIndex={index}
-            updateItemArray={handleTodoItems}
-          >
-            <TodoItem
-              data={todo}
-              handleTodoItems={handleTodoItems}
-              wholeData={array}
-            />
-          </DragNDrop>
-        ))} */}
-        {todoData.map((todo, index, array) =>
+        {todoItems.map((todo, index, array) =>
           enableDrag ? (
             <DragNDrop
               key={todo.id}
               itemArray={array}
               itemIndex={index}
-              updateItemArray={handleTodoItems}
+              updateItemArray={setTodoItems}
             >
               <TodoItem
                 data={todo}

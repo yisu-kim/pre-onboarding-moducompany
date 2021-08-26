@@ -2,7 +2,6 @@
 /* eslint-disable jsx-a11y/no-onchange */
 import styled from '@emotion/styled';
 import SortService from 'Components/Sort/SortService';
-import { Itodo } from 'Pages/Delete/Delete';
 import React, { useState, useEffect } from 'react';
 import useTodoItems from 'hooks/useTodoItems';
 import TodoList from './TodoList';
@@ -14,8 +13,8 @@ const TodoSeletedDiv = styled.div`
 
 const TodoContainer = () => {
   const {
-    todoItemsReal,
-    setTodoItemsReal,
+    todoItems,
+    setTodoItems,
     deleteTodo,
     editTaskName,
     editStatus,
@@ -32,13 +31,13 @@ const TodoContainer = () => {
   function todoSort(selectName: string) {
     switch (selectName) {
       case 'basic':
-        setTodoItemsReal(() => fetchData());
+        setTodoItems(() => fetchData());
         break;
       case 'Date':
-        setTodoItemsReal((current) => sortDate(current));
+        setTodoItems((current) => sortDate(current));
         break;
       case 'Importance':
-        setTodoItemsReal((current) => sortImportance(current));
+        setTodoItems((current) => sortImportance(current));
         break;
       default:
     }
@@ -47,10 +46,6 @@ const TodoContainer = () => {
   useEffect(() => {
     todoSort(sortState);
   }, [sortState]);
-
-  const handleTodoItems = (newTodoItems: Itodo[]) => {
-    setTodoItemsReal(newTodoItems);
-  };
 
   return (
     <div>
@@ -62,8 +57,8 @@ const TodoContainer = () => {
         </select>
       </TodoSeletedDiv>
       <TodoList
-        todoData={todoItemsReal}
-        handleTodoItems={handleTodoItems}
+        todoItems={todoItems}
+        setTodoItems={setTodoItems}
         enableDrag={sortState === 'basic'}
         deleteTodo={deleteTodo}
         editTaskName={editTaskName}
