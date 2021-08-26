@@ -19,6 +19,20 @@ function TodoList({ todoData, handleTodoItems, enableDrag }: TodoItemProps) {
   return (
     <DragProvider>
       <TodoItemDiv>
+        {/* {todoData.map((todo, index, array) => (
+          <DragNDrop
+            key={todo.id}
+            itemArray={array}
+            itemIndex={index}
+            updateItemArray={handleTodoItems}
+          >
+            <TodoItem
+              data={todo}
+              handleTodoItems={handleTodoItems}
+              wholeData={array}
+            />
+          </DragNDrop>
+        ))} */}
         {todoData.map((todo, index, array) =>
           enableDrag ? (
             <DragNDrop
@@ -27,10 +41,19 @@ function TodoList({ todoData, handleTodoItems, enableDrag }: TodoItemProps) {
               itemIndex={index}
               updateItemArray={handleTodoItems}
             >
-              <TodoItem data={todo} />
+              <TodoItem
+                data={todo}
+                handleTodoItems={handleTodoItems}
+                wholeData={array}
+              />
             </DragNDrop>
           ) : (
-            <TodoItem key={todo.id} data={todo} />
+            <TodoItem
+              key={todo.id}
+              data={todo}
+              handleTodoItems={handleTodoItems}
+              wholeData={array}
+            />
           )
         )}
       </TodoItemDiv>

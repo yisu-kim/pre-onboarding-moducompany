@@ -4,12 +4,14 @@ import styled from '@emotion/styled';
 import SortService from 'Components/Sort/SortService';
 import { Itodo } from 'Pages/Delete/Delete';
 import React, { useState, useEffect } from 'react';
+import saveDataToLocalStorage from 'Utils/SaveDataToLocalStorage';
 import TodoList from './TodoList';
 
 const TodoSeletedDiv = styled.div`
   height: 10%;
   background-color: #c9c9c9;
 `;
+
 const initialTodos: Itodo[] = [];
 
 const TodoContainer = () => {
@@ -20,28 +22,21 @@ const TodoContainer = () => {
   const sortChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     setSortState(e.target.value);
   };
+
   function todoSort(selectName: string) {
     switch (selectName) {
       case 'basic':
         setTodoItems(() => fetchData());
         break;
       case 'Date':
-        setTodoItems(() => sortDate());
+        setTodoItems((current) => sortDate(current));
         break;
       case 'Importance':
-        setTodoItems(() => sortImportance());
+        setTodoItems((current) => sortImportance(current));
         break;
       default:
     }
   }
-
-  useEffect(() => {
-    async function fetch() {
-      const data = await fetchData;
-      setTodoItems(data);
-    }
-    fetch();
-  }, []);
 
   useEffect(() => {
     todoSort(sortState);
