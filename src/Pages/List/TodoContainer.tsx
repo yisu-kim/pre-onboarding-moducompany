@@ -60,7 +60,11 @@ const TodoContainer = () => {
           <option value="Importance">중요도순</option>
         </select>
       </TodoSeletedDiv>
-      <TodoList todoData={todoItems} handleTodoItems={handleTodoItems} />
+      <TodoList
+        todoData={todoItems}
+        handleTodoItems={handleTodoItems}
+        enableDrag={sortState === 'basic'}
+      />
     </div>
   );
 };
