@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
+import DragNDrop from 'Components/DragNDrop';
 import { Itodo } from 'Pages/Delete/Delete';
+import { DragProvider } from 'store/drag';
 import TodoItem from './TodoItem';
 
 const TodoItemDiv = styled.div`
@@ -9,15 +11,30 @@ const TodoItemDiv = styled.div`
 
 interface TodoItemProps {
   todoData: Itodo[];
+  handleTodoItems: (newTodoItems: Itodo[]) => void;
+  enableDrag: boolean;
 }
 
-function TodoList({ todoData }: TodoItemProps) {
+function TodoList({ todoData, handleTodoItems, enableDrag }: TodoItemProps) {
   return (
-    <TodoItemDiv>
-      {todoData.map((r) => (
-        <TodoItem key={r.id} data={r} />
-      ))}
-    </TodoItemDiv>
+    <DragProvider>
+      <TodoItemDiv>
+        {todoData.map((todo, index, array) =>
+          enableDrag ? (
+            <DragNDrop
+              key={todo.id}
+              itemArray={array}
+              itemIndex={index}
+              updateItemArray={handleTodoItems}
+            >
+              <TodoItem data={todo} />
+            </DragNDrop>
+          ) : (
+            <TodoItem key={todo.id} data={todo} />
+          )
+        )}
+      </TodoItemDiv>
+    </DragProvider>
   );
 }
 
