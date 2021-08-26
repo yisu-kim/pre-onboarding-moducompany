@@ -13,9 +13,21 @@ interface TodoItemProps {
   todoData: Itodo[];
   handleTodoItems: (newTodoItems: Itodo[]) => void;
   enableDrag: boolean;
+  deleteTodo: (id: number) => void;
+  editTaskName: (id: number, newTaskName: string) => void;
+  editStatus: (id: number) => void;
+  editImportance: (id: number) => void;
 }
 
-function TodoList({ todoData, handleTodoItems, enableDrag }: TodoItemProps) {
+function TodoList({
+  todoData,
+  handleTodoItems,
+  enableDrag,
+  deleteTodo,
+  editTaskName,
+  editStatus,
+  editImportance
+}: TodoItemProps) {
   return (
     <DragProvider>
       <TodoItemDiv>
@@ -43,16 +55,20 @@ function TodoList({ todoData, handleTodoItems, enableDrag }: TodoItemProps) {
             >
               <TodoItem
                 data={todo}
-                handleTodoItems={handleTodoItems}
-                wholeData={array}
+                deleteTodo={deleteTodo}
+                editTaskName={editTaskName}
+                editStatus={editStatus}
+                editImportance={editImportance}
               />
             </DragNDrop>
           ) : (
             <TodoItem
               key={todo.id}
               data={todo}
-              handleTodoItems={handleTodoItems}
-              wholeData={array}
+              deleteTodo={deleteTodo}
+              editTaskName={editTaskName}
+              editStatus={editStatus}
+              editImportance={editImportance}
             />
           )
         )}

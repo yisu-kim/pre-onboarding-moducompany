@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import SortService from 'Components/Sort/SortService';
 import { Itodo } from 'Pages/Delete/Delete';
 import React, { useState, useEffect } from 'react';
-import saveDataToLocalStorage from 'Utils/SaveDataToLocalStorage';
+import useTodoItems from 'hooks/useTodoItems';
 import TodoList from './TodoList';
 
 const TodoSeletedDiv = styled.div`
@@ -12,11 +12,17 @@ const TodoSeletedDiv = styled.div`
   background-color: #c9c9c9;
 `;
 
-const initialTodos: Itodo[] = [];
-
 const TodoContainer = () => {
+  const {
+    todoItemsReal,
+    setTodoItemsReal,
+    deleteTodo,
+    editTaskName,
+    editStatus,
+    editImportance
+  } = useTodoItems();
+
   const [sortState, setSortState] = useState('basic');
-  const [todoItems, setTodoItems] = useState(initialTodos);
   const { fetchData, sortDate, sortImportance } = SortService();
 
   const sortChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
@@ -26,13 +32,13 @@ const TodoContainer = () => {
   function todoSort(selectName: string) {
     switch (selectName) {
       case 'basic':
-        setTodoItems(() => fetchData());
+        setTodoItemsReal(() => fetchData());
         break;
       case 'Date':
-        setTodoItems((current) => sortDate(current));
+        setTodoItemsReal((current) => sortDate(current));
         break;
       case 'Importance':
-        setTodoItems((current) => sortImportance(current));
+        setTodoItemsReal((current) => sortImportance(current));
         break;
       default:
     }
@@ -43,7 +49,7 @@ const TodoContainer = () => {
   }, [sortState]);
 
   const handleTodoItems = (newTodoItems: Itodo[]) => {
-    setTodoItems(newTodoItems);
+    setTodoItemsReal(newTodoItems);
   };
 
   return (
@@ -56,9 +62,13 @@ const TodoContainer = () => {
         </select>
       </TodoSeletedDiv>
       <TodoList
-        todoData={todoItems}
+        todoData={todoItemsReal}
         handleTodoItems={handleTodoItems}
         enableDrag={sortState === 'basic'}
+        deleteTodo={deleteTodo}
+        editTaskName={editTaskName}
+        editStatus={editStatus}
+        editImportance={editImportance}
       />
     </div>
   );

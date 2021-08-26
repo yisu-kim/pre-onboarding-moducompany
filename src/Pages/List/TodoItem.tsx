@@ -1,39 +1,33 @@
 /* eslint-disable no-nested-ternary */
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useState, useRef } from 'react';
 import styled from '@emotion/styled';
 import { Itodo } from 'Pages/Delete/Delete';
-import saveDataToLocalStorage from 'Utils/SaveDataToLocalStorage';
 
 interface TodoItemProps {
   data: Itodo;
-  wholeData: Itodo[];
-  handleTodoItems: (newTodoItems: Itodo[]) => void;
+  deleteTodo: (id: number) => void;
+  editTaskName: (id: number, newTaskName: string) => void;
+  editStatus: (id: number) => void;
+  editImportance: (id: number) => void;
 }
 
-function TodoItem({ data, wholeData, handleTodoItems }: TodoItemProps) {
+function TodoItem({
+  data,
+  deleteTodo,
+  editTaskName,
+  editStatus,
+  editImportance
+}: TodoItemProps) {
   const [taskNameEditMode, setTaskNameEditMode] = useState<boolean>(false);
   const inputEl = useRef<HTMLInputElement>(null);
 
-  const todoItemsStateEdit = (
-    id: number,
-    element: string,
-    content: string | number
-  ) => {
-    const editedData = wholeData.map((item) =>
-      item.id === id ? { ...item, [element]: content } : item
-    );
-    handleTodoItems(editedData);
-    saveDataToLocalStorage('data', editedData);
-  };
-
   const handleDelete = (id: number) => {
-    const leftData = wholeData.filter((item) => item.id !== id);
-    handleTodoItems(leftData);
+    deleteTodo(id);
   };
 
   const handleTaskNameEdit = (id: number) => {
     const newTaskName = inputEl.current?.value || '';
-    if (newTaskName.length > 0) todoItemsStateEdit(id, 'taskName', newTaskName);
+    editTaskName(id, newTaskName);
     setTaskNameEditMode(false);
   };
 
@@ -47,39 +41,12 @@ function TodoItem({ data, wholeData, handleTodoItems }: TodoItemProps) {
   };
 
   const handleStatusEditClick = (id: number) => {
-    statusEdit(id, data);
-  };
-
-  const statusEdit = (id: number, currentStatus: Itodo) => {
-    if (currentStatus.status === '완료') {
-      todoItemsStateEdit(id, 'status', '시작 안함');
-    } else if (currentStatus.status === '시작 안함') {
-      todoItemsStateEdit(id, 'status', '진행중');
-    } else {
-      todoItemsStateEdit(id, 'status', '완료');
-    }
+    editStatus(id);
   };
 
   const handleImportanceEditClick = (id: number) => {
-    if (data.importance === '1') {
-      todoItemsStateEdit(id, 'importance', '2');
-    } else if (data.importance === '2') {
-      todoItemsStateEdit(id, 'importance', '3');
-    } else {
-      todoItemsStateEdit(id, 'importance', '1');
-    }
+    editImportance(id);
   };
-
-  const saveData = () => {
-    saveDataToLocalStorage('data', wholeData);
-  };
-  // const saveData = useCallback(() => {
-  //   saveDataToLocalStorage('data', wholeData);
-  // }, [wholeData]);
-
-  // useEffect(() => {
-  //   saveData();
-  // }, [saveData]);
 
   return (
     <TodoItemDiv>
