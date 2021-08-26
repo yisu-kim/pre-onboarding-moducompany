@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { FaCalendarAlt } from 'react-icons/fa';
+import { MdKeyboardArrowDown } from 'react-icons/md';
 
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
@@ -39,6 +40,21 @@ const TodoForm: FC = () => {
             <FaCalendarAlt />
           </IconButton>
         </InputBox>
+        <Select>
+          <select
+            name="importance"
+            onChange={handleInputChange}
+            onBlur={handleInputChange}
+          >
+            <option value="">중요도</option>
+            <option value="1">High</option>
+            <option value="2">Medium</option>
+            <option value="3">Low</option>
+          </select>
+          <MdKeyboardArrowDown />
+        </Select>
+        <Button type="submit">추가</Button>
+
         {rangePickerOpen && (
           <CustomDatePicker
             dueDateRange={dueDateRange}
@@ -46,7 +62,6 @@ const TodoForm: FC = () => {
             onCloseClick={handleCloseButtonClick}
           />
         )}
-        <Button type="submit">추가</Button>
       </form>
       {dueDateRange && <DateRangeText dueDateRange={dueDateRange} />}
     </FormWrap>
@@ -82,8 +97,8 @@ const CustomDatePicker = styled(DatePicker)`
 `;
 
 const Button = styled.button`
-  padding: 10px;
   margin-left: 5px;
+  padding: 10px;
   height: 37px;
   color: #999;
   border: 1px solid #dcdcdc;
@@ -92,6 +107,35 @@ const Button = styled.button`
   &:hover {
     color: #0099fd;
     border-color: #0099fd;
+  }
+`;
+
+const Select = styled.p`
+  position: relative;
+  display: inline-block;
+  margin-left: 5px;
+  height: 37px;
+  color: #999;
+  text-align: center;
+  border: 1px solid #dcdcdc;
+  vertical-align: middle;
+  cursor: pointer;
+  &:hover {
+    color: #0099fd;
+    border-color: #0099fd;
+  }
+  select {
+    padding: 10px 30px 10px 20px;
+    border: none;
+    outline: none;
+    appearance: none;
+    cursor: pointer;
+  }
+  svg {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
   }
 `;
 
