@@ -10,7 +10,7 @@ export interface Itodo {
   status: string;
   createdAt: string;
   updatedAt: string;
-  dueDateRange: string[];
+  dueDateRange: Date[];
   importance: string;
 }
 

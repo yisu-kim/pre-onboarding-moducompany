@@ -17,10 +17,15 @@ const Head = styled.header`
   left: 0;
   margin-bottom: 40px;
   padding: 30px 40px;
+  text-align: center;
   border-bottom: 1px solid #eee;
+  background: #fff;
   h1 {
     display: flex;
     align-items: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
     color: #0099fd;
     svg {
       margin-right: 10px;

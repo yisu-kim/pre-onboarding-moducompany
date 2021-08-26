@@ -12,13 +12,14 @@ const TodoItemDiv = styled.div`
 interface TodoItemProps {
   todoData: Itodo[];
   handleTodoItems: (newTodoItems: Itodo[]) => void;
+  enableDrag: boolean;
 }
 
-function TodoList({ todoData, handleTodoItems }: TodoItemProps) {
+function TodoList({ todoData, handleTodoItems, enableDrag }: TodoItemProps) {
   return (
     <DragProvider>
       <TodoItemDiv>
-        {todoData.map((todo, index, array) => (
+        {/* {todoData.map((todo, index, array) => (
           <DragNDrop
             key={todo.id}
             itemArray={array}
@@ -31,7 +32,30 @@ function TodoList({ todoData, handleTodoItems }: TodoItemProps) {
               wholeData={array}
             />
           </DragNDrop>
-        ))}
+        ))} */}
+        {todoData.map((todo, index, array) =>
+          enableDrag ? (
+            <DragNDrop
+              key={todo.id}
+              itemArray={array}
+              itemIndex={index}
+              updateItemArray={handleTodoItems}
+            >
+              <TodoItem
+                data={todo}
+                handleTodoItems={handleTodoItems}
+                wholeData={array}
+              />
+            </DragNDrop>
+          ) : (
+            <TodoItem
+              key={todo.id}
+              data={todo}
+              handleTodoItems={handleTodoItems}
+              wholeData={array}
+            />
+          )
+        )}
       </TodoItemDiv>
     </DragProvider>
   );
