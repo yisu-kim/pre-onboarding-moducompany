@@ -7,6 +7,7 @@ import { css } from '@emotion/react';
 
 import useTodo from 'hooks/useTodo';
 import useRangePickerVisible from 'hooks/useRangePickerVisible';
+import { IMPORTANCE_TYPE } from 'Constants'
 
 import dateFormat from 'Utils/Date';
 import DatePicker from './DatePicker';
@@ -48,9 +49,9 @@ const TodoForm: FC = () => {
               onBlur={handleInputChange}
             >
               <optgroup label="중요도">
-                <option value="1">High</option>
-                <option value="2">Medium</option>
-                <option value="3">Low</option>
+                <option value="1">{HIGH}</option>
+                <option value="2">{MEDIUM}</option>
+                <option value="3">{LOW}</option>
               </optgroup>
             </select>
             <MdKeyboardArrowDown />
@@ -176,4 +177,5 @@ const IconButton = styled(Button)`
     `}
 `;
 
+const {HIGH, MEDIUM, LOW} = IMPORTANCE_TYPE; 
 export default TodoForm;

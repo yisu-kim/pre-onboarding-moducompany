@@ -5,6 +5,15 @@ import { Itodo } from 'Pages/Delete/Delete';
 import useTodo from 'hooks/useTodo';
 import useRangePickerVisible from 'hooks/useRangePickerVisible';
 import DatePicker from 'Components/DatePicker';
+import {
+  CALENDAR_ICON,
+  CANCEL_ICON,
+  CONFIRM_ICON,
+  IMPORTANCE_TYPE_COLOR,
+  PENCIL_ICON,
+  STATUS_TYPE,
+  TRASH_ICON
+} from 'Constants';
 
 interface TodoItemProps {
   data: Itodo;
@@ -72,28 +81,28 @@ function TodoItem({
           {' '}
           {data.importance === '3' ? (
             <Symbol
-              color="green"
+              color={GREEN}
               onClick={() => handleImportanceEditClick(data.id)}
             />
           ) : data.importance === '1' ? (
             <Symbol
-              color="red"
+              color={RED}
               onClick={() => handleImportanceEditClick(data.id)}
             />
           ) : (
             <Symbol
-              color="yellow"
+              color={YELLOW}
               onClick={() => handleImportanceEditClick(data.id)}
             />
           )}
-          {data.status === '완료' ? (
+          {data.status === FINISHED ? (
             <StatusDiv
               color="green"
               onClick={() => handleStatusEditClick(data.id)}
             >
               <span>{data.status}</span>
             </StatusDiv>
-          ) : data.status === '시작 안함' ? (
+          ) : data.status === NOT_START ? (
             <StatusDiv
               color="#c9c9c9"
               onClick={() => handleStatusEditClick(data.id)}
@@ -131,30 +140,27 @@ function TodoItem({
         <div>
           {taskNameEditMode ? (
             <ConfirmBtn
-              src="assets/img/confirm.svg"
+              src={CONFIRM_ICON}
               onClick={() => handleTaskNameEdit(data.id)}
             />
           ) : (
-            <TackNameEditBtn
-              src="assets/img/pencil.svg"
+            <TaskNameEditBtn
+              src={PENCIL_ICON}
               onClick={() => setTaskNameEditMode((prev) => !prev)}
             />
           )}
           {rangePickerOpen ? (
             <CancelBtn
-              src="assets/img/close.svg"
+              src={CANCEL_ICON}
               onClick={handleRangePickerVisibleToggle}
             />
           ) : (
             <DueDateRangeEditBtn
-              src="assets/img/calendar.svg"
+              src={CALENDAR_ICON}
               onClick={handleRangePickerVisibleToggle}
             />
           )}
-          <TrashBtn
-            src="assets/img/trash.svg"
-            onClick={() => handleDelete(data.id)}
-          />
+          <TrashBtn src={TRASH_ICON} onClick={() => handleDelete(data.id)} />
         </div>
       </TodoItemInfoDiv>
       {rangePickerOpen && (
@@ -204,7 +210,7 @@ const Button = styled.img`
 
 const TrashBtn = styled(Button)``;
 const ConfirmBtn = styled(Button)``;
-const TackNameEditBtn = styled(Button)``;
+const TaskNameEditBtn = styled(Button)``;
 const CancelBtn = styled(Button)``;
 const DueDateRangeEditBtn = styled(Button)``;
 
@@ -236,3 +242,6 @@ const CustomDatePicker = styled(DatePicker)`
   transform: translateX(-50%);
   box-shadow: 0px 4px 15px rgb(0 0 0 / 20%);
 `;
+
+const { NOT_START, FINISHED } = STATUS_TYPE;
+const {RED, YELLOW, GREEN} = IMPORTANCE_TYPE_COLOR
