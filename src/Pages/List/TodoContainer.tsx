@@ -29,8 +29,6 @@ const TodoContainer = () => {
     }
   } = useContext(TodoContext);
 
-  console.log(todoItems);
-
   const todoSort = useCallback(
     (selectName: string): Itodo[] => {
       switch (selectName) {
