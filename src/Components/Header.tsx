@@ -20,6 +20,7 @@ const Head = styled.header`
   text-align: center;
   border-bottom: 1px solid #eee;
   background: #fff;
+  z-index: 9999;
   h1 {
     display: flex;
     align-items: center;

@@ -14,6 +14,7 @@ import {
   STATUS_TYPE,
   TRASH_ICON
 } from 'Constants';
+import DateRangeText from 'Components/DateRangeText';
 
 interface TodoItemProps {
   data: Itodo;
@@ -134,8 +135,7 @@ function TodoItem({
       </TodoItemInfoDiv>
       <TodoItemInfoDiv>
         <DueDateRangeDiv>
-          <span>⏱</span>
-          {data.dueDateRange[0]} ~ {data.dueDateRange[1]}
+          <DateRangeText dueDateRange={data.dueDateRange} />
         </DueDateRangeDiv>
         <div>
           {taskNameEditMode ? (
@@ -244,4 +244,4 @@ const CustomDatePicker = styled(DatePicker)`
 `;
 
 const { NOT_START, FINISHED } = STATUS_TYPE;
-const {RED, YELLOW, GREEN} = IMPORTANCE_TYPE_COLOR
+const { RED, YELLOW, GREEN } = IMPORTANCE_TYPE_COLOR;
