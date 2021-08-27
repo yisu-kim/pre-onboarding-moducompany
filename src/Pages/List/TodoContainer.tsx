@@ -1,10 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/no-onchange */
 import styled from '@emotion/styled';
 import SortService from 'Components/Sort/SortService';
-import { Itodo } from 'Pages/Delete/Delete';
+import useTodoItems, { Itodo } from 'hooks/useTodoItems';
 import React, { useState, useEffect } from 'react';
-import saveDataToLocalStorage from 'Utils/SaveDataToLocalStorage';
 import TodoList from './TodoList';
 
 const TodoSeletedDiv = styled.div`
@@ -12,39 +10,32 @@ const TodoSeletedDiv = styled.div`
   background-color: #c9c9c9;
 `;
 
-const initialTodos: Itodo[] = [];
-
 const TodoContainer = () => {
+  const { todoItems, handleTodoItems } = useTodoItems();
   const [sortState, setSortState] = useState('basic');
-  const [todoItems, setTodoItems] = useState(initialTodos);
   const { fetchData, sortDate, sortImportance } = SortService();
 
   const sortChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     setSortState(e.target.value);
   };
 
-  function todoSort(selectName: string) {
+  function todoSort(selectName: string): Itodo[] {
     switch (selectName) {
       case 'basic':
-        setTodoItems(() => fetchData());
-        break;
+        return fetchData();
       case 'Date':
-        setTodoItems((current) => sortDate(current));
-        break;
+        return sortDate(todoItems);
       case 'Importance':
-        setTodoItems((current) => sortImportance(current));
-        break;
+        return sortImportance(todoItems);
       default:
+        return [];
     }
   }
 
   useEffect(() => {
-    todoSort(sortState);
+    const sorted = todoSort(sortState);
+    handleTodoItems(sorted);
   }, [sortState]);
-
-  const handleTodoItems = (newTodoItems: Itodo[]) => {
-    setTodoItems(newTodoItems);
-  };
 
   return (
     <div>
