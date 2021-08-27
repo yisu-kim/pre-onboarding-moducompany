@@ -126,6 +126,13 @@ const FormTop = styled.div`
   & > * + * {
     margin-left: 5px;
   }
+  @media screen and (max-width: 420px) {
+    flex-direction: column;
+
+    & > * + * {
+      margin: 5px 0 0 0;
+    }
+  }
 `;
 
 const InputBox = styled.p`
@@ -184,12 +191,20 @@ const Select = styled.p`
     outline: none;
     appearance: none;
     cursor: pointer;
+    background: none;
   }
   svg {
     position: absolute;
     right: 5px;
     top: 50%;
     transform: translateY(-50%);
+  }
+
+  @media screen and (max-width: 420px) {
+    display: flex;
+    select {
+      flex: 1;
+    }
   }
 `;
 
