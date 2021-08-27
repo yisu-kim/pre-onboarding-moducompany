@@ -7,9 +7,13 @@ const DateRangeText = ({ dueDateRange }: { dueDateRange: Date[] }) => {
   return (
     <Wrap>
       <span>⏱</span>
-      <span>{dueDateRange && dateFormat({ targetDate: startDate })}</span>
+      <span>
+        {dueDateRange && dateFormat({ targetDate: new Date(startDate) })}
+      </span>
       <span>~</span>
-      <span>{dueDateRange && dateFormat({ targetDate: endDate })}</span>
+      <span>
+        {dueDateRange && dateFormat({ targetDate: new Date(endDate) })}
+      </span>
     </Wrap>
   );
 };

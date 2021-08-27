@@ -1,21 +1,34 @@
-import { FC } from 'react';
+import React, { FC, useContext } from 'react';
 import { FaCalendarAlt } from 'react-icons/fa';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
-import useTodo from 'hooks/useTodo';
+import useTodo, { IMPORTANCE_OPTIONS } from 'hooks/useTodo';
 import useRangePickerVisible from 'hooks/useRangePickerVisible';
-import { IMPORTANCE_TYPE } from 'Constants'
 
 import dateFormat from 'Utils/Date';
+
+import TodoContext from 'store/Todo';
 import DatePicker from './DatePicker';
 import DateRangeText from './DateRangeText';
 
 const TodoForm: FC = () => {
-  const { todo, handleInputChange, handleDateRangeChange } = useTodo();
-  const { taskName, dueDateRange } = todo;
+  const {
+    state: { todoItems },
+    actions: { addTodo }
+  } = useContext(TodoContext);
+
+  const {
+    todo,
+    handleChange,
+    handleInputChange,
+    handleDateRangeChange,
+    clearTodoInput
+  } = useTodo({ todoItems });
+
+  const { id, taskName, dueDateRange, importance } = todo;
 
   const {
     rangePickerOpen,
@@ -23,8 +36,18 @@ const TodoForm: FC = () => {
     handleCloseButtonClick
   } = useRangePickerVisible();
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    handleChange({ name: 'id', value: id + 1 });
+
+    addTodo({ todo });
+
+    clearTodoInput();
+  };
+
   return (
-    <FormWrap>
+    <FormWrap onSubmit={handleSubmit}>
       <Today>Today is, {dateFormat({ targetDate: new Date() })}</Today>
       <form>
         <FormTop>
@@ -47,11 +70,14 @@ const TodoForm: FC = () => {
               name="importance"
               onChange={handleInputChange}
               onBlur={handleInputChange}
+              defaultValue={importance}
             >
               <optgroup label="중요도">
-                <option value="1">{HIGH}</option>
-                <option value="2">{MEDIUM}</option>
-                <option value="3">{LOW}</option>
+                {IMPORTANCE_OPTIONS.map(({ value, title }) => (
+                  <option key={value} value={value}>
+                    {title}
+                  </option>
+                ))}
               </optgroup>
             </select>
             <MdKeyboardArrowDown />
@@ -177,5 +203,4 @@ const IconButton = styled(Button)`
     `}
 `;
 
-const {HIGH, MEDIUM, LOW} = IMPORTANCE_TYPE; 
 export default TodoForm;

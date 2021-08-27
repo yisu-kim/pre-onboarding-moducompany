@@ -62,6 +62,10 @@ const useTodoItems = () => {
     setTodoItems(leftData);
   };
 
+  const addTodo = ({ todo }: { todo: Itodo }) => {
+    setTodoItems((prev) => [todo, ...prev]);
+  };
+
   const editTaskName = (id: number, newTaskName: string) => {
     if (newTaskName.length > 0) todoItemsStateEdit(id, TASK_NAME, newTaskName);
   };
@@ -96,9 +100,11 @@ const useTodoItems = () => {
 
   const editDueDateRange = (id: number, value: Date[] | null) => {
     if (value !== null) {
+      const [startDate, endDate] = value;
+
       const parsedDueDateRange = [
-        dateFormat({ targetDate: value[0] }),
-        dateFormat({ targetDate: value[1] })
+        dateFormat({ targetDate: new Date(startDate) }),
+        dateFormat({ targetDate: new Date(endDate) })
       ];
       todoItemsStateEdit(id, DUE_DATE_RANGE, parsedDueDateRange);
     }
@@ -107,6 +113,7 @@ const useTodoItems = () => {
   return {
     todoItems,
     setTodoItems,
+    addTodo,
     deleteTodo,
     editTaskName,
     editStatus,
@@ -118,4 +125,4 @@ const useTodoItems = () => {
 
 export default useTodoItems;
 const { NOT_START, ON_GOING, FINISHED } = STATUS_TYPE;
-const { HIGH, MEDIUM, LOW } = IMPORTANCE_TYPE_NUMBER
+const { HIGH, MEDIUM, LOW } = IMPORTANCE_TYPE_NUMBER;

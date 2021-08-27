@@ -1,7 +1,4 @@
-import { Itodo } from 'Pages/Delete/Delete';
-import getDataFromLocalStorage from './GetDataFromLocalStorage';
-
-export const getBiggestId = <
+const getBiggestId = <
   T extends {
     id: number;
   }
@@ -15,12 +12,4 @@ export const getBiggestId = <
   return Math.max(...numbers);
 };
 
-export const getLastTodoId = (): number | null => {
-  const todos = getDataFromLocalStorage('todos');
-
-  if (!todos) {
-    return null;
-  }
-
-  return getBiggestId<Itodo>({ data: todos });
-};
+export default getBiggestId;
