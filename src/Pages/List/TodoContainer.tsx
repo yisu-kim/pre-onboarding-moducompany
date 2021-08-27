@@ -5,9 +5,29 @@ import React, { useState, useEffect, useCallback } from 'react';
 import useTodoItems, { Itodo } from 'hooks/useTodoItems';
 import TodoList from './TodoList';
 
+const Wrapper = styled.div`
+  animation-name: DocumentPalette;
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  border-radius: 50px;
+`;
+
+const TodoSelectedContainer = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+`;
+
 const TodoSelectedDiv = styled.div`
+  display: flex;
+  align-items: center;
   height: 10%;
-  background-color: #c9c9c9;
+  margin: 30px 30px 0 0;
+`;
+
+const SortButton = styled.img`
+  width: 20px;
+  margin-right: 5px;
 `;
 
 const TodoContainer = () => {
@@ -53,14 +73,17 @@ const TodoContainer = () => {
   }, [sortState, todoSort]);
 
   return (
-    <div>
-      <TodoSelectedDiv>
-        <select onChange={sortChange} value={sortState}>
-          <option value="basic">기본정렬</option>
-          <option value="Date">생성일순</option>
-          <option value="Importance">중요도순</option>
-        </select>
-      </TodoSelectedDiv>
+    <Wrapper>
+      <TodoSelectedContainer>
+        <TodoSelectedDiv>
+          <SortButton src="https://ifh.cc/g/CbWQQv.png" alt="" />
+          <select onChange={sortChange} value={sortState}>
+            <option value="basic">기본정렬</option>
+            <option value="Date">생성일순</option>
+            <option value="Importance">중요도순</option>
+          </select>
+        </TodoSelectedDiv>
+      </TodoSelectedContainer>
       <TodoList
         todoItems={isBasic ? todoItems : sortedItems}
         deleteTodo={deleteTodo}
@@ -71,7 +94,7 @@ const TodoContainer = () => {
         handleTodoItems={handleTodoItems}
         enableDrag={isBasic}
       />
-    </div>
+    </Wrapper>
   );
 };
 

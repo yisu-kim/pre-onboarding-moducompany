@@ -68,45 +68,47 @@ function TodoItem({
   return (
     <TodoItemDiv>
       <TodoItemInfoDiv>
-        {data.importance === '3' ? (
-          <Symbol
-            color="green"
-            onClick={() => handleImportanceEditClick(data.id)}
-          />
-        ) : data.importance === '1' ? (
-          <Symbol
-            color="red"
-            onClick={() => handleImportanceEditClick(data.id)}
-          />
-        ) : (
-          <Symbol
-            color="yellow"
-            onClick={() => handleImportanceEditClick(data.id)}
-          />
-        )}
-
-        {data.status === '완료' ? (
-          <StatusDiv
-            color="green"
-            onClick={() => handleStatusEditClick(data.id)}
-          >
-            <span>{data.status}</span>
-          </StatusDiv>
-        ) : data.status === '시작 안함' ? (
-          <StatusDiv
-            color="#c9c9c9"
-            onClick={() => handleStatusEditClick(data.id)}
-          >
-            <span>{data.status}</span>
-          </StatusDiv>
-        ) : (
-          <StatusDiv
-            color="pink"
-            onClick={() => handleStatusEditClick(data.id)}
-          >
-            <span>{data.status}</span>
-          </StatusDiv>
-        )}
+        <TopDiv>
+          {' '}
+          {data.importance === '3' ? (
+            <Symbol
+              color="green"
+              onClick={() => handleImportanceEditClick(data.id)}
+            />
+          ) : data.importance === '1' ? (
+            <Symbol
+              color="red"
+              onClick={() => handleImportanceEditClick(data.id)}
+            />
+          ) : (
+            <Symbol
+              color="yellow"
+              onClick={() => handleImportanceEditClick(data.id)}
+            />
+          )}
+          {data.status === '완료' ? (
+            <StatusDiv
+              color="green"
+              onClick={() => handleStatusEditClick(data.id)}
+            >
+              <span>{data.status}</span>
+            </StatusDiv>
+          ) : data.status === '시작 안함' ? (
+            <StatusDiv
+              color="#c9c9c9"
+              onClick={() => handleStatusEditClick(data.id)}
+            >
+              <span>{data.status}</span>
+            </StatusDiv>
+          ) : (
+            <StatusDiv
+              color="pink"
+              onClick={() => handleStatusEditClick(data.id)}
+            >
+              <span>{data.status}</span>
+            </StatusDiv>
+          )}
+        </TopDiv>
       </TodoItemInfoDiv>
       <TodoItemInfoDiv>
         {taskNameEditMode ? (
@@ -122,12 +124,11 @@ function TodoItem({
         )}
       </TodoItemInfoDiv>
       <TodoItemInfoDiv>
+        <DueDateRangeDiv>
+          <span>⏱</span>
+          {data.dueDateRange[0]} ~ {data.dueDateRange[1]}
+        </DueDateRangeDiv>
         <div>
-          <span style={{ fontSize: '5px' }}>
-            {data.dueDateRange[0]} ~ {data.dueDateRange[1]}
-          </span>
-        </div>
-        <div style={{ display: 'flex', marginLeft: '65%' }}>
           {taskNameEditMode ? (
             <ConfirmBtn
               src="assets/img/confirm.svg"
@@ -173,7 +174,6 @@ export default TodoItem;
 
 const TodoItemDiv = styled.div`
   position: relative;
-
   padding: 20px;
   background-color: #ffffff;
   border-radius: 10px;
@@ -182,7 +182,17 @@ const TodoItemDiv = styled.div`
 
 const TodoItemInfoDiv = styled.div`
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 10px;
+`;
+
+const TopDiv = styled.div`
+  display: flex;
+`;
+
+const DueDateRangeDiv = styled.div`
+  font-size: 8px;
 `;
 
 const Button = styled.img`
@@ -219,12 +229,8 @@ const StatusDiv = styled.div`
 `;
 
 const CustomDatePicker = styled(DatePicker)`
-  /* position: absolute;
-  top: 45px;
-  left: 50%; */
   position: absolute;
   top: 20px;
-  /* bottom: 0px; */
   left: 50%;
   z-index: 1000;
   transform: translateX(-50%);
