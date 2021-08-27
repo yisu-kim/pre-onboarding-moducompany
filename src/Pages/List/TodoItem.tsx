@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
 import styled from '@emotion/styled';
-import { Itodo } from 'Pages/Delete/Delete';
+import { Itodo } from 'hooks/useTodoItems';
 import useTodo from 'hooks/useTodo';
 import useRangePickerVisible from 'hooks/useRangePickerVisible';
 import DatePicker from 'Components/DatePicker';
@@ -14,6 +14,8 @@ import {
   STATUS_TYPE,
   TRASH_ICON
 } from 'Constants';
+import DateRangeText from 'Components/DateRangeText';
+import TodoContext from 'store/Todo';
 
 interface TodoItemProps {
   data: Itodo;
@@ -32,7 +34,11 @@ function TodoItem({
   editImportance,
   editDueDateRange
 }: TodoItemProps) {
-  const { todo, handleDateRangeChange } = useTodo();
+  const {
+    state: { todoItems }
+  } = useContext(TodoContext);
+
+  const { todo, handleDateRangeChange } = useTodo({ todoItems });
   const { dueDateRange } = todo;
   const [taskNameEditMode, setTaskNameEditMode] = useState<boolean>(false);
   const inputEl = useRef<HTMLInputElement>(null);
@@ -75,7 +81,7 @@ function TodoItem({
   };
 
   return (
-    <TodoItemDiv>
+    <TodoItemDiv isComplete={data.status === FINISHED}>
       <TodoItemInfoDiv>
         <TopDiv>
           {' '}
@@ -134,8 +140,7 @@ function TodoItem({
       </TodoItemInfoDiv>
       <TodoItemInfoDiv>
         <DueDateRangeDiv>
-          <span>⏱</span>
-          {data.dueDateRange[0]} ~ {data.dueDateRange[1]}
+          <DateRangeText dueDateRange={data.dueDateRange} />
         </DueDateRangeDiv>
         <div>
           {taskNameEditMode ? (
@@ -178,12 +183,19 @@ function TodoItem({
 
 export default TodoItem;
 
-const TodoItemDiv = styled.div`
+const TodoItemDiv = styled.div<{ isComplete: boolean }>`
   position: relative;
   padding: 20px;
   background-color: #ffffff;
   border-radius: 10px;
   margin: 20px;
+  ${({ isComplete }) =>
+    isComplete &&
+    `
+    & * {
+      opacity: 0.7;
+    }
+  `};
 `;
 
 const TodoItemInfoDiv = styled.div`
@@ -244,4 +256,4 @@ const CustomDatePicker = styled(DatePicker)`
 `;
 
 const { NOT_START, FINISHED } = STATUS_TYPE;
-const {RED, YELLOW, GREEN} = IMPORTANCE_TYPE_COLOR
+const { RED, YELLOW, GREEN } = IMPORTANCE_TYPE_COLOR;

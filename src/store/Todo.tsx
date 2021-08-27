@@ -8,6 +8,7 @@ interface ITodoContext {
   actions: {
     // setTodoItems: Dispatch<SetStateAction<Itodo[]>>;
     handleTodoItems: (newTodoItems: Itodo[]) => void;
+    addTodo: ({ todo }: { todo: Itodo }) => void;
     deleteTodo: (id: number) => void;
     editTaskName: (id: number, newTaskName: string) => void;
     editStatus: (id: number) => void;
@@ -22,6 +23,7 @@ const defaultValue: ITodoContext = {
   actions: {
     handleTodoItems: () => {},
     deleteTodo: () => {},
+    addTodo: () => {},
     editTaskName: () => {},
     editStatus: () => {},
     editImportance: () => {},
@@ -39,6 +41,7 @@ const TodoProvider: React.FC<TodoProviderProps> = ({ children }) => {
   const {
     todoItems,
     deleteTodo,
+    addTodo,
     editTaskName,
     editStatus,
     editImportance,
@@ -50,6 +53,7 @@ const TodoProvider: React.FC<TodoProviderProps> = ({ children }) => {
     state: { todoItems },
     actions: {
       deleteTodo,
+      addTodo,
       editTaskName,
       editStatus,
       editImportance,

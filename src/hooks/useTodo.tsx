@@ -1,39 +1,68 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 
-import { Itodo } from 'Pages/Delete/Delete';
-import { getLastTodoId } from 'Utils/TodoForm';
+import getBiggestId from 'Utils/TodoForm';
 import dateFormat from 'Utils/Date';
-import { DUE_DATE_RANGE, STATUS_TYPE } from 'Constants';
+import {
+  DUE_DATE_RANGE,
+  STATUS_TYPE,
+  IMPORTANCE_TYPE,
+  IMPORTANCE_TYPE_NUMBER
+} from 'Constants';
+import { Itodo } from './useTodoItems';
 
-interface ITodoItem extends Omit<Itodo, 'dueDateRange'> {
-  dueDateRange: Date[] | null;
-}
+type Name = 'id' | 'taskName' | 'dueDateRange' | 'importance';
 
-type Name = 'taskName' | 'dueDateRange' | 'importance';
+const { HIGH, MEDIUM, LOW } = IMPORTANCE_TYPE;
 
-const initialTodo = (id: number): ITodoItem => ({
-  id: id + 1,
+export const IMPORTANCE_OPTIONS = [
+  {
+    value: '1',
+    title: HIGH
+  },
+  {
+    value: '2',
+    title: MEDIUM
+  },
+  {
+    value: '3',
+    title: LOW
+  }
+];
+
+const initialTodo = {
   taskName: '',
   isComplete: false,
   status: STATUS_TYPE.NOT_START,
   createdAt: dateFormat({ targetDate: new Date() }),
   updatedAt: dateFormat({ targetDate: new Date() }),
-  dueDateRange: null,
-  importance: ''
+  dueDateRange: [new Date(), new Date()],
+  importance: IMPORTANCE_TYPE_NUMBER.LOW
+};
+
+const createInitialTodoWithId = (id: number): Itodo => ({
+  id: id + 1,
+  ...initialTodo
 });
 
-const useTodo = () => {
-  const id = getLastTodoId() || 0;
+const getLattestId = (todoItems: Itodo[]) =>
+  todoItems?.length === 0 ? 0 : getBiggestId({ data: todoItems });
 
-  const [todo, setTodo] = useState<ITodoItem>(initialTodo(id));
+const useTodo = ({ todoItems }: { todoItems: Itodo[] }) => {
+  const [todo, setTodo] = useState<Itodo>(createInitialTodoWithId(0));
+
+  useEffect(() => {
+    const todoId = getLattestId(todoItems);
+
+    setTodo(createInitialTodoWithId(todoId));
+  }, [todoItems]);
 
   const handleChange = useCallback(
     <T extends string>({
       name,
       value
     }: {
-      name: T;
-      value: string | Date[];
+      name: T | Name;
+      value: number | string | Date[];
     }) => {
       setTodo((prev) => ({
         ...prev,
@@ -60,7 +89,20 @@ const useTodo = () => {
     [handleChange]
   );
 
-  return { todo, handleChange, handleInputChange, handleDateRangeChange };
+  const clearTodoInput = () => {
+    setTodo(({ id }: { id: number }) => ({
+      id,
+      ...initialTodo
+    }));
+  };
+
+  return {
+    todo,
+    handleChange,
+    handleInputChange,
+    handleDateRangeChange,
+    clearTodoInput
+  };
 };
 
 export default useTodo;
