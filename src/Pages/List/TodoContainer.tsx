@@ -13,7 +13,9 @@ const TodoSeletedDiv = styled.div`
 const TodoContainer = () => {
   const { todoItems, handleTodoItems } = useTodoItems();
   const [sortState, setSortState] = useState('basic');
-  const { fetchData, sortDate, sortImportance } = SortService();
+  const [sortedItems, setSortedItems] = useState<Itodo[]>([]);
+  const { sortDate, sortImportance } = SortService();
+  const [isBasic, setIsBasic] = useState<boolean>(sortState === 'basic');
 
   const sortChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     setSortState(e.target.value);
@@ -21,20 +23,24 @@ const TodoContainer = () => {
 
   function todoSort(selectName: string): Itodo[] {
     switch (selectName) {
-      case 'basic':
-        return fetchData();
       case 'Date':
         return sortDate(todoItems);
       case 'Importance':
         return sortImportance(todoItems);
       default:
-        return [];
+        return todoItems;
     }
   }
 
   useEffect(() => {
+    if (sortState === 'basic') {
+      setIsBasic(true);
+    } else {
+      setIsBasic(false);
+    }
+
     const sorted = todoSort(sortState);
-    handleTodoItems(sorted);
+    setSortedItems(sorted);
   }, [sortState]);
 
   return (
@@ -47,9 +53,9 @@ const TodoContainer = () => {
         </select>
       </TodoSeletedDiv>
       <TodoList
-        todoData={todoItems}
+        todoData={isBasic ? todoItems : sortedItems}
         handleTodoItems={handleTodoItems}
-        enableDrag={sortState === 'basic'}
+        enableDrag={isBasic}
       />
     </div>
   );
