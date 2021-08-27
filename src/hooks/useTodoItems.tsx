@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Itodo } from 'Pages/Delete/Delete';
 import getDataFromLocalStorage from 'Utils/GetDataFromLocalStorage';
 import saveDataToLocalStorage from 'Utils/SaveDataToLocalStorage';
+import dateFormat from 'Utils/Date';
 
 const initialTodos: Itodo[] = [];
 
@@ -10,10 +11,6 @@ const useTodoItems = () => {
   const [todoItems, setTodoItems] = useState(initialTodos);
 
   useEffect(() => {
-    fetch('/Data/Data.json')
-      .then((res) => res.json())
-      .then((data) => saveDataToLocalStorage('data', data));
-
     const data = getDataFromLocalStorage('data');
     setTodoItems(data);
   }, []);
@@ -21,7 +18,7 @@ const useTodoItems = () => {
   const todoItemsStateEdit = (
     id: number,
     element: string,
-    content: string | number
+    content: string | number | string[]
   ) => {
     const editedData = todoItems.map((item) =>
       item.id === id ? { ...item, [element]: content } : item
@@ -64,13 +61,24 @@ const useTodoItems = () => {
     }
   };
 
+  const editDueDateRange = (id: number, value: Date[] | null) => {
+    if (value !== null) {
+      const parsedDueDateRange = [
+        dateFormat({ targetDate: value[0] }),
+        dateFormat({ targetDate: value[1] })
+      ];
+      todoItemsStateEdit(id, 'dueDateRange', parsedDueDateRange);
+    }
+  };
+
   return {
     todoItems,
     setTodoItems,
     deleteTodo,
     editTaskName,
     editStatus,
-    editImportance
+    editImportance,
+    editDueDateRange
   };
 };
 

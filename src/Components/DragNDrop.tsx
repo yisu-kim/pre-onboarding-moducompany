@@ -2,6 +2,7 @@ import React, { DragEvent, useContext } from 'react';
 import styled from '@emotion/styled';
 import DragContext from 'store/drag';
 import { Itodo } from 'Pages/Delete/Delete';
+import saveDataToLocalStorage from 'Utils/SaveDataToLocalStorage';
 
 interface DragNDropProps {
   itemArray: Itodo[];
@@ -49,6 +50,7 @@ const DragNDrop: React.FC<DragNDropProps> = ({
       const [dragItem] = newItemArray.splice(dragItemIndex, 1);
       newItemArray.splice(dropIndex, 0, dragItem);
       updateItemArray(newItemArray);
+      saveDataToLocalStorage('data', newItemArray);
     }
   };
 

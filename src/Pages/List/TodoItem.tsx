@@ -2,6 +2,9 @@
 import { useState, useRef } from 'react';
 import styled from '@emotion/styled';
 import { Itodo } from 'Pages/Delete/Delete';
+import useTodo from 'hooks/useTodo';
+import useRangePickerVisible from 'hooks/useRangePickerVisible';
+import DatePicker from 'Components/DatePicker';
 
 interface TodoItemProps {
   data: Itodo;
@@ -9,6 +12,7 @@ interface TodoItemProps {
   editTaskName: (id: number, newTaskName: string) => void;
   editStatus: (id: number) => void;
   editImportance: (id: number) => void;
+  editDueDateRange: (id: number, value: Date[] | null) => void;
 }
 
 function TodoItem({
@@ -16,10 +20,18 @@ function TodoItem({
   deleteTodo,
   editTaskName,
   editStatus,
-  editImportance
+  editImportance,
+  editDueDateRange
 }: TodoItemProps) {
+  const { todo, handleDateRangeChange } = useTodo();
+  const { dueDateRange } = todo;
   const [taskNameEditMode, setTaskNameEditMode] = useState<boolean>(false);
   const inputEl = useRef<HTMLInputElement>(null);
+  const {
+    rangePickerOpen,
+    handleRangePickerVisibleToggle,
+    handleCloseButtonClick
+  } = useRangePickerVisible();
 
   const handleDelete = (id: number) => {
     deleteTodo(id);
@@ -46,6 +58,11 @@ function TodoItem({
 
   const handleImportanceEditClick = (id: number) => {
     editImportance(id);
+  };
+
+  const handleDateRangeSave = (id: number, dueDateRangeReal: Date[] | null) => {
+    editDueDateRange(id, dueDateRangeReal);
+    handleCloseButtonClick();
   };
 
   return (
@@ -112,16 +129,42 @@ function TodoItem({
         </div>
         <div style={{ display: 'flex', marginLeft: '65%' }}>
           {taskNameEditMode ? (
-            <TrashImage onClick={() => handleTaskNameEdit(data.id)} />
+            <ConfirmBtn
+              src="assets/img/confirm.svg"
+              onClick={() => handleTaskNameEdit(data.id)}
+            />
           ) : (
-            <SettingImage
+            <TackNameEditBtn
+              src="assets/img/pencil.svg"
               onClick={() => setTaskNameEditMode((prev) => !prev)}
             />
           )}
-          <SettingImage />
-          <TrashImage onClick={() => handleDelete(data.id)} />
+          {rangePickerOpen ? (
+            <CancelBtn
+              src="assets/img/close.svg"
+              onClick={handleRangePickerVisibleToggle}
+            />
+          ) : (
+            <DueDateRangeEditBtn
+              src="assets/img/calendar.svg"
+              onClick={handleRangePickerVisibleToggle}
+            />
+          )}
+          <TrashBtn
+            src="assets/img/trash.svg"
+            onClick={() => handleDelete(data.id)}
+          />
         </div>
       </TodoItemInfoDiv>
+      {rangePickerOpen && (
+        <CustomDatePicker
+          dueDateRange={[data.dueDateRange[0], data.dueDateRange[1]]}
+          editMode="editMode"
+          onSaveClick={() => handleDateRangeSave(data.id, dueDateRange)}
+          onChange={handleDateRangeChange}
+          onCloseClick={handleCloseButtonClick}
+        />
+      )}
     </TodoItemDiv>
   );
 }
@@ -129,6 +172,8 @@ function TodoItem({
 export default TodoItem;
 
 const TodoItemDiv = styled.div`
+  position: relative;
+
   padding: 20px;
   background-color: #ffffff;
   border-radius: 10px;
@@ -140,25 +185,18 @@ const TodoItemInfoDiv = styled.div`
   padding: 10px;
 `;
 
-const SettingImage = styled.div`
-  background-image: url('assets/img/setting.svg');
-  background-size: cover;
-  background-position: center;
+const Button = styled.img`
   width: 20px;
   height: 20px;
   margin: 0px 5px;
   cursor: pointer;
 `;
 
-const TrashImage = styled.div`
-  background-image: url('assets/img/trash.svg');
-  background-size: cover;
-  background-position: center;
-  width: 20px;
-  height: 20px;
-  margin: 0px 5px;
-  cursor: pointer;
-`;
+const TrashBtn = styled(Button)``;
+const ConfirmBtn = styled(Button)``;
+const TackNameEditBtn = styled(Button)``;
+const CancelBtn = styled(Button)``;
+const DueDateRangeEditBtn = styled(Button)``;
 
 const Symbol = styled.div`
   width: 20px;
@@ -178,4 +216,17 @@ const StatusDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const CustomDatePicker = styled(DatePicker)`
+  /* position: absolute;
+  top: 45px;
+  left: 50%; */
+  position: absolute;
+  top: 20px;
+  /* bottom: 0px; */
+  left: 50%;
+  z-index: 1000;
+  transform: translateX(-50%);
+  box-shadow: 0px 4px 15px rgb(0 0 0 / 20%);
 `;

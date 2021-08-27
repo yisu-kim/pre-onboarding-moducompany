@@ -17,6 +17,7 @@ interface TodoItemProps {
   editTaskName: (id: number, newTaskName: string) => void;
   editStatus: (id: number) => void;
   editImportance: (id: number) => void;
+  editDueDateRange: (id: number, value: Date[] | null) => void;
 }
 
 function TodoList({
@@ -26,7 +27,8 @@ function TodoList({
   deleteTodo,
   editTaskName,
   editStatus,
-  editImportance
+  editImportance,
+  editDueDateRange
 }: TodoItemProps) {
   return (
     <DragProvider>
@@ -45,6 +47,7 @@ function TodoList({
                 editTaskName={editTaskName}
                 editStatus={editStatus}
                 editImportance={editImportance}
+                editDueDateRange={editDueDateRange}
               />
             </DragNDrop>
           ) : (
@@ -55,6 +58,7 @@ function TodoList({
               editTaskName={editTaskName}
               editStatus={editStatus}
               editImportance={editImportance}
+              editDueDateRange={editDueDateRange}
             />
           )
         )}

@@ -18,7 +18,8 @@ const TodoContainer = () => {
     deleteTodo,
     editTaskName,
     editStatus,
-    editImportance
+    editImportance,
+    editDueDateRange
   } = useTodoItems();
 
   const [sortState, setSortState] = useState('basic');
@@ -64,6 +65,7 @@ const TodoContainer = () => {
         editTaskName={editTaskName}
         editStatus={editStatus}
         editImportance={editImportance}
+        editDueDateRange={editDueDateRange}
       />
     </div>
   );
