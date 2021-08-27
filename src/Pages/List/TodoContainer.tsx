@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/no-onchange */
 import styled from '@emotion/styled';
-import SortService from 'Components/Sort/SortService';
+import SortService from 'Pages/List/SortService';
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 import TodoContext from 'store/Todo';
 import { Itodo } from 'hooks/useTodoItems';
@@ -28,6 +28,8 @@ const TodoContainer = () => {
       handleTodoItems
     }
   } = useContext(TodoContext);
+
+  console.log(todoItems);
 
   const todoSort = useCallback(
     (selectName: string): Itodo[] => {

@@ -1,6 +1,5 @@
-/* eslint-disable react/self-closing-comp */
 import { TODOS } from 'Constants';
-import { Itodo } from 'Pages/Delete/Delete';
+import { Itodo } from 'hooks/useTodoItems';
 import getDataFromLocalStorage from 'Utils/GetDataFromLocalStorage';
 
 function SortService() {

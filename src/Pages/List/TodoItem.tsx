@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import { useState, useRef, useContext } from 'react';
 import styled from '@emotion/styled';
-import { Itodo } from 'Pages/Delete/Delete';
+import { Itodo } from 'hooks/useTodoItems';
 import useTodo from 'hooks/useTodo';
 import useRangePickerVisible from 'hooks/useRangePickerVisible';
 import DatePicker from 'Components/DatePicker';

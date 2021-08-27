@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import DragNDrop from 'Components/DragNDrop';
-import { Itodo } from 'Pages/Delete/Delete';
+import { Itodo } from 'hooks/useTodoItems';
 import { DragProvider } from 'store/drag';
 import TodoItem from './TodoItem';
 
