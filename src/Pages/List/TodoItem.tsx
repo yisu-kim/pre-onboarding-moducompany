@@ -75,7 +75,7 @@ function TodoItem({
   };
 
   return (
-    <TodoItemDiv>
+    <TodoItemDiv isComplete={data.isComplete}>
       <TodoItemInfoDiv>
         <TopDiv>
           {' '}
@@ -178,12 +178,19 @@ function TodoItem({
 
 export default TodoItem;
 
-const TodoItemDiv = styled.div`
+const TodoItemDiv = styled.div<{ isComplete: boolean }>`
   position: relative;
   padding: 20px;
   background-color: #ffffff;
   border-radius: 10px;
   margin: 20px;
+  ${({ isComplete }) =>
+    isComplete &&
+    `
+    & * {
+      opacity: 0.7;
+    }
+  `};
 `;
 
 const TodoItemInfoDiv = styled.div`
@@ -244,4 +251,4 @@ const CustomDatePicker = styled(DatePicker)`
 `;
 
 const { NOT_START, FINISHED } = STATUS_TYPE;
-const {RED, YELLOW, GREEN} = IMPORTANCE_TYPE_COLOR
+const { RED, YELLOW, GREEN } = IMPORTANCE_TYPE_COLOR;
