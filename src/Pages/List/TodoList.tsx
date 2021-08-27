@@ -11,7 +11,7 @@ const TodoItemDiv = styled.div`
 
 interface TodoItemProps {
   todoItems: Itodo[];
-  setTodoItems: (newTodoItems: Itodo[]) => void;
+  handleTodoItems: (newTodoItems: Itodo[]) => void;
   enableDrag: boolean;
   deleteTodo: (id: number) => void;
   editTaskName: (id: number, newTaskName: string) => void;
@@ -22,7 +22,7 @@ interface TodoItemProps {
 
 function TodoList({
   todoItems,
-  setTodoItems,
+  handleTodoItems,
   enableDrag,
   deleteTodo,
   editTaskName,
@@ -39,7 +39,7 @@ function TodoList({
               key={todo.id}
               itemArray={array}
               itemIndex={index}
-              updateItemArray={setTodoItems}
+              updateItemArray={handleTodoItems}
             >
               <TodoItem
                 data={todo}

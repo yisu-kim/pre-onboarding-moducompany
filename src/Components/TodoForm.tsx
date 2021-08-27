@@ -24,35 +24,41 @@ const TodoForm: FC = () => {
 
   return (
     <FormWrap>
-      <h2>{dateFormat({ targetDate: new Date() })}</h2>
+      <Today>Today is, {dateFormat({ targetDate: new Date() })}</Today>
       <form>
-        <InputBox>
-          <input
-            name="taskName"
-            value={taskName}
-            onChange={handleInputChange}
-          />
-          <IconButton
-            type="button"
-            onClick={handleRangePickerVisibleToggle}
-            active={rangePickerOpen}
-          >
-            <FaCalendarAlt />
-          </IconButton>
-        </InputBox>
-        <Select>
-          <select
-            name="importance"
-            onChange={handleInputChange}
-            onBlur={handleInputChange}
-          >
-            <option value="">중요도</option>
-            <option value="1">High</option>
-            <option value="2">Medium</option>
-            <option value="3">Low</option>
-          </select>
-          <MdKeyboardArrowDown />
-        </Select>
+        <FormTop>
+          <InputBox>
+            <input
+              name="taskName"
+              value={taskName}
+              onChange={handleInputChange}
+            />
+            <IconButton
+              type="button"
+              onClick={handleRangePickerVisibleToggle}
+              active={rangePickerOpen}
+            >
+              <FaCalendarAlt />
+            </IconButton>
+          </InputBox>
+          <Select>
+            <select
+              name="importance"
+              onChange={handleInputChange}
+              onBlur={handleInputChange}
+            >
+              <optgroup label="중요도">
+                <option value="1">High</option>
+                <option value="2">Medium</option>
+                <option value="3">Low</option>
+              </optgroup>
+            </select>
+            <MdKeyboardArrowDown />
+          </Select>
+        </FormTop>
+
+        {dueDateRange && <DateRangeText dueDateRange={dueDateRange} />}
+
         <Button type="submit">추가</Button>
 
         {rangePickerOpen && (
@@ -63,28 +69,51 @@ const TodoForm: FC = () => {
           />
         )}
       </form>
-      {dueDateRange && <DateRangeText dueDateRange={dueDateRange} />}
     </FormWrap>
   );
 };
 
 const FormWrap = styled.div`
   display: inline-block;
-  h2 {
-    margin-bottom: 10px;
-  }
+  max-width: 500px;
+  width: 100%;
   form {
-    display: flex;
     position: relative;
   }
 `;
 
+const Today = styled.p`
+  margin-bottom: 20px;
+  font-size: 17px;
+  color: #aeb9bf;
+`;
+
+const FormTop = styled.div`
+  display: flex;
+  & + button {
+    margin-top: 20px;
+  }
+  & + p {
+    margin: 20px 0;
+  }
+  & > * + * {
+    margin-left: 5px;
+  }
+`;
+
 const InputBox = styled.p`
+  display: flex;
+  flex: 1;
+  height: 37px;
+  border: 1px solid #dcdcdc;
   input {
+    flex: 1;
     padding: 10px;
-    width: 300px;
-    border: 1px solid #dcdcdc;
+    border: none;
     outline: none;
+  }
+  button {
+    border: none;
   }
 `;
 
@@ -97,8 +126,7 @@ const CustomDatePicker = styled(DatePicker)`
 `;
 
 const Button = styled.button`
-  margin-left: 5px;
-  padding: 10px;
+  padding: 10px 20px;
   height: 37px;
   color: #999;
   border: 1px solid #dcdcdc;
@@ -113,7 +141,6 @@ const Button = styled.button`
 const Select = styled.p`
   position: relative;
   display: inline-block;
-  margin-left: 5px;
   height: 37px;
   color: #999;
   text-align: center;
@@ -140,7 +167,7 @@ const Select = styled.p`
 `;
 
 const IconButton = styled(Button)`
-  width: 37px;
+  padding: 10px;
   ${({ active }: { active?: boolean }) =>
     active &&
     css`

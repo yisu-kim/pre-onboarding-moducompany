@@ -1,19 +1,43 @@
 import { useEffect, useState } from 'react';
 
-import { Itodo } from 'Pages/Delete/Delete';
+// import { Itodo } from 'Pages/Delete/Delete';
 import getDataFromLocalStorage from 'Utils/GetDataFromLocalStorage';
 import saveDataToLocalStorage from 'Utils/SaveDataToLocalStorage';
 import dateFormat from 'Utils/Date';
 
-const initialTodos: Itodo[] = [];
+export type Itodo = {
+  id: number;
+  taskName: string;
+  isComplete: boolean;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  dueDateRange: Date[];
+  importance: string;
+};
+
+let initialTodos: Itodo[] = [];
 
 const useTodoItems = () => {
   const [todoItems, setTodoItems] = useState(initialTodos);
 
   useEffect(() => {
-    const data = getDataFromLocalStorage('data');
-    setTodoItems(data);
+    loadData();
   }, []);
+
+  useEffect(() => {
+    saveDataToLocalStorage('data', todoItems);
+  }, [todoItems]);
+
+  const loadData = () => {
+    const data = getDataFromLocalStorage('data');
+    initialTodos = data === null ? [] : data;
+    setTodoItems(initialTodos);
+  };
+
+  const handleTodoItems = (newTodoItems: Itodo[]) => {
+    setTodoItems(newTodoItems);
+  };
 
   const todoItemsStateEdit = (
     id: number,
@@ -24,13 +48,13 @@ const useTodoItems = () => {
       item.id === id ? { ...item, [element]: content } : item
     );
     setTodoItems(editedData);
-    saveDataToLocalStorage('data', editedData);
+    // saveDataToLocalStorage('data', editedData);
   };
 
   const deleteTodo = (id: number) => {
     const leftData = todoItems.filter((item) => item.id !== id);
     setTodoItems(leftData);
-    saveDataToLocalStorage('data', leftData);
+    // saveDataToLocalStorage('data', leftData);
   };
 
   const editTaskName = (id: number, newTaskName: string) => {
@@ -78,7 +102,8 @@ const useTodoItems = () => {
     editTaskName,
     editStatus,
     editImportance,
-    editDueDateRange
+    editDueDateRange,
+    handleTodoItems
   };
 };
 

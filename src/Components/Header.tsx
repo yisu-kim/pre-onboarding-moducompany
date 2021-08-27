@@ -23,9 +23,8 @@ const Head = styled.header`
   h1 {
     display: flex;
     align-items: center;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    justify-content: center;
+    margin-bottom: 10px;
     color: #0099fd;
     svg {
       margin-right: 10px;
