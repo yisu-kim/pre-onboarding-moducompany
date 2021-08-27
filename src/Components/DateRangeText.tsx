@@ -15,7 +15,6 @@ const DateRangeText = ({ dueDateRange }: { dueDateRange: Date[] }) => {
 };
 
 const Wrap = styled.p`
-  margin-top: 10px;
   span {
     vertical-align: middle;
     line-height: 1;
