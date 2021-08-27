@@ -75,7 +75,7 @@ function TodoItem({
   };
 
   return (
-    <TodoItemDiv isComplete={data.isComplete}>
+    <TodoItemDiv isComplete={data.status === FINISHED}>
       <TodoItemInfoDiv>
         <TopDiv>
           {' '}
