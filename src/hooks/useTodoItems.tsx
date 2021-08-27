@@ -20,17 +20,18 @@ let initialTodos: Itodo[] = [];
 
 const useTodoItems = () => {
   const [todoItems, setTodoItems] = useState(initialTodos);
+  const data = getDataFromLocalStorage('data');
 
   useEffect(() => {
     loadData();
   }, []);
 
-  useEffect(() => {
-    saveDataToLocalStorage('data', todoItems);
-  }, [todoItems]);
+  // useEffect(() => {
+  //   saveDataToLocalStorage('data', todoItems);
+  // }, [todoItems]);
 
   const loadData = () => {
-    const data = getDataFromLocalStorage('data');
+    // const data = getDataFromLocalStorage('data');
     initialTodos = data === null ? [] : data;
     setTodoItems(initialTodos);
   };
@@ -48,13 +49,13 @@ const useTodoItems = () => {
       item.id === id ? { ...item, [element]: content } : item
     );
     setTodoItems(editedData);
-    // saveDataToLocalStorage('data', editedData);
+    saveDataToLocalStorage('data', editedData);
   };
 
   const deleteTodo = (id: number) => {
     const leftData = todoItems.filter((item) => item.id !== id);
     setTodoItems(leftData);
-    // saveDataToLocalStorage('data', leftData);
+    saveDataToLocalStorage('data', leftData);
   };
 
   const editTaskName = (id: number, newTaskName: string) => {
@@ -62,27 +63,27 @@ const useTodoItems = () => {
   };
 
   const editStatus = (id: number) => {
-    const currentTodo = todoItems.find((item) => item.id === id);
-
-    if (currentTodo?.status === '완료') {
-      todoItemsStateEdit(id, 'status', '시작 안함');
-    } else if (currentTodo?.status === '시작 안함') {
-      todoItemsStateEdit(id, 'status', '진행중');
-    } else {
-      todoItemsStateEdit(id, 'status', '완료');
-    }
+    const currentTodo = data.find((item: Itodo) => item.id === id);
+    const currentStatus: string = currentTodo?.status;
+    const status: { [key: string]: string } = {
+      완료: '시작 안함',
+      '시작 안함': '진행중',
+      진행중: '완료'
+    };
+    const updateStatus = status[currentStatus] || '';
+    todoItemsStateEdit(id, 'status', updateStatus);
   };
 
   const editImportance = (id: number) => {
-    const currentTodo = todoItems.find((item) => item.id === id);
-
-    if (currentTodo?.importance === '1') {
-      todoItemsStateEdit(id, 'importance', '2');
-    } else if (currentTodo?.importance === '2') {
-      todoItemsStateEdit(id, 'importance', '3');
-    } else {
-      todoItemsStateEdit(id, 'importance', '1');
-    }
+    const currentTodo = data.find((item: Itodo) => item.id === id);
+    const currentImportance: string = currentTodo?.importance;
+    const importance: { [key: string]: string } = {
+      '1': '2',
+      '2': '3',
+      '3': '1'
+    };
+    const updateImportance = importance[currentImportance] || '';
+    todoItemsStateEdit(id, 'importance', updateImportance);
   };
 
   const editDueDateRange = (id: number, value: Date[] | null) => {
