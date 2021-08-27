@@ -1,6 +1,6 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 
-import { getLastTodoId } from 'Utils/TodoForm';
+import getBiggestId from 'Utils/TodoForm';
 import dateFormat from 'Utils/Date';
 import {
   DUE_DATE_RANGE,
@@ -44,10 +44,17 @@ const createInitialTodoWithId = (id: number): Itodo => ({
   ...initialTodo
 });
 
-const useTodo = ({ todoItems }: { todoItems: Itodo[] } = { todoItems: [] }) => {
-  const todoId = todoItems?.length === 0 ? 0 : getLastTodoId({ todoItems });
+const getLattestId = (todoItems: Itodo[]) =>
+  todoItems?.length === 0 ? 0 : getBiggestId({ data: todoItems });
 
-  const [todo, setTodo] = useState<Itodo>(createInitialTodoWithId(todoId));
+const useTodo = ({ todoItems }: { todoItems: Itodo[] }) => {
+  const [todo, setTodo] = useState<Itodo>(createInitialTodoWithId(0));
+
+  useEffect(() => {
+    const todoId = getLattestId(todoItems);
+
+    setTodo(createInitialTodoWithId(todoId));
+  }, [todoItems]);
 
   const handleChange = useCallback(
     <T extends string>({

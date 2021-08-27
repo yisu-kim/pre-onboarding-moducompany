@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
 import styled from '@emotion/styled';
 import { Itodo } from 'Pages/Delete/Delete';
 import useTodo from 'hooks/useTodo';
@@ -15,6 +15,7 @@ import {
   TRASH_ICON
 } from 'Constants';
 import DateRangeText from 'Components/DateRangeText';
+import TodoContext from 'store/Todo';
 
 interface TodoItemProps {
   data: Itodo;
@@ -33,7 +34,11 @@ function TodoItem({
   editImportance,
   editDueDateRange
 }: TodoItemProps) {
-  const { todo, handleDateRangeChange } = useTodo();
+  const {
+    state: { todoItems }
+  } = useContext(TodoContext);
+
+  const { todo, handleDateRangeChange } = useTodo({ todoItems });
   const { dueDateRange } = todo;
   const [taskNameEditMode, setTaskNameEditMode] = useState<boolean>(false);
   const inputEl = useRef<HTMLInputElement>(null);

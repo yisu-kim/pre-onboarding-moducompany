@@ -1,6 +1,4 @@
-import { Itodo } from 'hooks/useTodoItems';
-
-export const getBiggestId = <
+const getBiggestId = <
   T extends {
     id: number;
   }
@@ -14,10 +12,4 @@ export const getBiggestId = <
   return Math.max(...numbers);
 };
 
-export const getLastTodoId = (
-  {
-    todoItems
-  }: {
-    todoItems: Itodo[];
-  } = { todoItems: [] }
-): number => getBiggestId<Itodo>({ data: todoItems });
+export default getBiggestId;
