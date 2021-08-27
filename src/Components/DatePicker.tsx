@@ -13,13 +13,17 @@ interface DatePickerProps {
   className?: string;
   onChange: ({ value }: { value: Date[] }) => void;
   onCloseClick: () => void;
+  onSaveClick?: () => void;
+  editMode?: string;
 }
 
 const DatePicker: React.FC<DatePickerProps> = ({
   dueDateRange,
   className,
   onChange,
-  onCloseClick
+  onCloseClick,
+  onSaveClick,
+  editMode
 }) => {
   const [dateRange, setDateRange] = useState<Range[]>([
     getDefaultDueDateRange({ dueDateRange })
@@ -45,15 +49,32 @@ const DatePicker: React.FC<DatePickerProps> = ({
         minDate={new Date()}
         dateDisplayFormat="yyyy / MM / dd"
       />
-      <Button type="button" onClick={onCloseClick}>
-        닫기
-      </Button>
+      {editMode && (
+        <ButtonContainer>
+          <Button type="button" onClick={onSaveClick}>
+            저장
+          </Button>
+          <Button type="button" onClick={onCloseClick}>
+            취소
+          </Button>
+        </ButtonContainer>
+      )}
+      {!editMode && (
+        <Button type="button" onClick={onCloseClick}>
+          닫기
+        </Button>
+      )}
     </Wrap>
   );
 };
 
 const Wrap = styled.div`
   display: inline-block;
+  z-index: 1000;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
 `;
 
 const Button = styled.button`

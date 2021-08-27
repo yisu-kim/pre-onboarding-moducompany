@@ -1,39 +1,45 @@
 /* eslint-disable no-nested-ternary */
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useState, useRef } from 'react';
 import styled from '@emotion/styled';
 import { Itodo } from 'Pages/Delete/Delete';
-import saveDataToLocalStorage from 'Utils/SaveDataToLocalStorage';
+import useTodo from 'hooks/useTodo';
+import useRangePickerVisible from 'hooks/useRangePickerVisible';
+import DatePicker from 'Components/DatePicker';
 
 interface TodoItemProps {
   data: Itodo;
-  wholeData: Itodo[];
-  handleTodoItems: (newTodoItems: Itodo[]) => void;
+  deleteTodo: (id: number) => void;
+  editTaskName: (id: number, newTaskName: string) => void;
+  editStatus: (id: number) => void;
+  editImportance: (id: number) => void;
+  editDueDateRange: (id: number, value: Date[] | null) => void;
 }
 
-function TodoItem({ data, wholeData, handleTodoItems }: TodoItemProps) {
+function TodoItem({
+  data,
+  deleteTodo,
+  editTaskName,
+  editStatus,
+  editImportance,
+  editDueDateRange
+}: TodoItemProps) {
+  const { todo, handleDateRangeChange } = useTodo();
+  const { dueDateRange } = todo;
   const [taskNameEditMode, setTaskNameEditMode] = useState<boolean>(false);
   const inputEl = useRef<HTMLInputElement>(null);
-
-  const todoItemsStateEdit = (
-    id: number,
-    element: string,
-    content: string | number
-  ) => {
-    const editedData = wholeData.map((item) =>
-      item.id === id ? { ...item, [element]: content } : item
-    );
-    handleTodoItems(editedData);
-    saveDataToLocalStorage('data', editedData);
-  };
+  const {
+    rangePickerOpen,
+    handleRangePickerVisibleToggle,
+    handleCloseButtonClick
+  } = useRangePickerVisible();
 
   const handleDelete = (id: number) => {
-    const leftData = wholeData.filter((item) => item.id !== id);
-    handleTodoItems(leftData);
+    deleteTodo(id);
   };
 
   const handleTaskNameEdit = (id: number) => {
     const newTaskName = inputEl.current?.value || '';
-    if (newTaskName.length > 0) todoItemsStateEdit(id, 'taskName', newTaskName);
+    editTaskName(id, newTaskName);
     setTaskNameEditMode(false);
   };
 
@@ -47,82 +53,62 @@ function TodoItem({ data, wholeData, handleTodoItems }: TodoItemProps) {
   };
 
   const handleStatusEditClick = (id: number) => {
-    statusEdit(id, data);
-  };
-
-  const statusEdit = (id: number, currentStatus: Itodo) => {
-    if (currentStatus.status === '완료') {
-      todoItemsStateEdit(id, 'status', '시작 안함');
-    } else if (currentStatus.status === '시작 안함') {
-      todoItemsStateEdit(id, 'status', '진행중');
-    } else {
-      todoItemsStateEdit(id, 'status', '완료');
-    }
+    editStatus(id);
   };
 
   const handleImportanceEditClick = (id: number) => {
-    if (data.importance === '1') {
-      todoItemsStateEdit(id, 'importance', '2');
-    } else if (data.importance === '2') {
-      todoItemsStateEdit(id, 'importance', '3');
-    } else {
-      todoItemsStateEdit(id, 'importance', '1');
-    }
+    editImportance(id);
   };
 
-  const saveData = () => {
-    saveDataToLocalStorage('data', wholeData);
+  const handleDateRangeSave = (id: number, dueDateRangeReal: Date[] | null) => {
+    editDueDateRange(id, dueDateRangeReal);
+    handleCloseButtonClick();
   };
-  // const saveData = useCallback(() => {
-  //   saveDataToLocalStorage('data', wholeData);
-  // }, [wholeData]);
-
-  // useEffect(() => {
-  //   saveData();
-  // }, [saveData]);
 
   return (
     <TodoItemDiv>
       <TodoItemInfoDiv>
-        {data.importance === '3' ? (
-          <Symbol
-            color="green"
-            onClick={() => handleImportanceEditClick(data.id)}
-          />
-        ) : data.importance === '1' ? (
-          <Symbol
-            color="red"
-            onClick={() => handleImportanceEditClick(data.id)}
-          />
-        ) : (
-          <Symbol
-            color="yellow"
-            onClick={() => handleImportanceEditClick(data.id)}
-          />
-        )}
-
-        {data.status === '완료' ? (
-          <StatusDiv
-            color="green"
-            onClick={() => handleStatusEditClick(data.id)}
-          >
-            <span>{data.status}</span>
-          </StatusDiv>
-        ) : data.status === '시작 안함' ? (
-          <StatusDiv
-            color="#c9c9c9"
-            onClick={() => handleStatusEditClick(data.id)}
-          >
-            <span>{data.status}</span>
-          </StatusDiv>
-        ) : (
-          <StatusDiv
-            color="pink"
-            onClick={() => handleStatusEditClick(data.id)}
-          >
-            <span>{data.status}</span>
-          </StatusDiv>
-        )}
+        <TopDiv>
+          {' '}
+          {data.importance === '3' ? (
+            <Symbol
+              color="green"
+              onClick={() => handleImportanceEditClick(data.id)}
+            />
+          ) : data.importance === '1' ? (
+            <Symbol
+              color="red"
+              onClick={() => handleImportanceEditClick(data.id)}
+            />
+          ) : (
+            <Symbol
+              color="yellow"
+              onClick={() => handleImportanceEditClick(data.id)}
+            />
+          )}
+          {data.status === '완료' ? (
+            <StatusDiv
+              color="green"
+              onClick={() => handleStatusEditClick(data.id)}
+            >
+              <span>{data.status}</span>
+            </StatusDiv>
+          ) : data.status === '시작 안함' ? (
+            <StatusDiv
+              color="#c9c9c9"
+              onClick={() => handleStatusEditClick(data.id)}
+            >
+              <span>{data.status}</span>
+            </StatusDiv>
+          ) : (
+            <StatusDiv
+              color="pink"
+              onClick={() => handleStatusEditClick(data.id)}
+            >
+              <span>{data.status}</span>
+            </StatusDiv>
+          )}
+        </TopDiv>
       </TodoItemInfoDiv>
       <TodoItemInfoDiv>
         {taskNameEditMode ? (
@@ -138,23 +124,48 @@ function TodoItem({ data, wholeData, handleTodoItems }: TodoItemProps) {
         )}
       </TodoItemInfoDiv>
       <TodoItemInfoDiv>
+        <DueDateRangeDiv>
+          <span>⏱</span>
+          {data.dueDateRange[0]} ~ {data.dueDateRange[1]}
+        </DueDateRangeDiv>
         <div>
-          <span style={{ fontSize: '5px' }}>
-            {data.dueDateRange[0]} ~ {data.dueDateRange[1]}
-          </span>
-        </div>
-        <div style={{ display: 'flex', marginLeft: '65%' }}>
           {taskNameEditMode ? (
-            <TrashImage onClick={() => handleTaskNameEdit(data.id)} />
+            <ConfirmBtn
+              src="assets/img/confirm.svg"
+              onClick={() => handleTaskNameEdit(data.id)}
+            />
           ) : (
-            <SettingImage
+            <TackNameEditBtn
+              src="assets/img/pencil.svg"
               onClick={() => setTaskNameEditMode((prev) => !prev)}
             />
           )}
-          <SettingImage />
-          <TrashImage onClick={() => handleDelete(data.id)} />
+          {rangePickerOpen ? (
+            <CancelBtn
+              src="assets/img/close.svg"
+              onClick={handleRangePickerVisibleToggle}
+            />
+          ) : (
+            <DueDateRangeEditBtn
+              src="assets/img/calendar.svg"
+              onClick={handleRangePickerVisibleToggle}
+            />
+          )}
+          <TrashBtn
+            src="assets/img/trash.svg"
+            onClick={() => handleDelete(data.id)}
+          />
         </div>
       </TodoItemInfoDiv>
+      {rangePickerOpen && (
+        <CustomDatePicker
+          dueDateRange={[data.dueDateRange[0], data.dueDateRange[1]]}
+          editMode="editMode"
+          onSaveClick={() => handleDateRangeSave(data.id, dueDateRange)}
+          onChange={handleDateRangeChange}
+          onCloseClick={handleCloseButtonClick}
+        />
+      )}
     </TodoItemDiv>
   );
 }
@@ -162,6 +173,7 @@ function TodoItem({ data, wholeData, handleTodoItems }: TodoItemProps) {
 export default TodoItem;
 
 const TodoItemDiv = styled.div`
+  position: relative;
   padding: 20px;
   background-color: #ffffff;
   border-radius: 10px;
@@ -170,28 +182,31 @@ const TodoItemDiv = styled.div`
 
 const TodoItemInfoDiv = styled.div`
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 10px;
 `;
 
-const SettingImage = styled.div`
-  background-image: url('assets/img/setting.svg');
-  background-size: cover;
-  background-position: center;
+const TopDiv = styled.div`
+  display: flex;
+`;
+
+const DueDateRangeDiv = styled.div`
+  font-size: 8px;
+`;
+
+const Button = styled.img`
   width: 20px;
   height: 20px;
   margin: 0px 5px;
   cursor: pointer;
 `;
 
-const TrashImage = styled.div`
-  background-image: url('assets/img/trash.svg');
-  background-size: cover;
-  background-position: center;
-  width: 20px;
-  height: 20px;
-  margin: 0px 5px;
-  cursor: pointer;
-`;
+const TrashBtn = styled(Button)``;
+const ConfirmBtn = styled(Button)``;
+const TackNameEditBtn = styled(Button)``;
+const CancelBtn = styled(Button)``;
+const DueDateRangeEditBtn = styled(Button)``;
 
 const Symbol = styled.div`
   width: 20px;
@@ -211,4 +226,13 @@ const StatusDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const CustomDatePicker = styled(DatePicker)`
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  z-index: 1000;
+  transform: translateX(-50%);
+  box-shadow: 0px 4px 15px rgb(0 0 0 / 20%);
 `;

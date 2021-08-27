@@ -16,7 +16,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => (
 const Main = styled.main`
   margin: 0 auto;
   max-width: 700px;
-  background: skyblue;
+  /* background: skyblue; */
 `;
 
 export default AppLayout;

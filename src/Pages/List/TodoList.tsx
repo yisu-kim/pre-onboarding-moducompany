@@ -10,30 +10,30 @@ const TodoItemDiv = styled.div`
 `;
 
 interface TodoItemProps {
-  todoData: Itodo[];
+  todoItems: Itodo[];
   handleTodoItems: (newTodoItems: Itodo[]) => void;
   enableDrag: boolean;
+  deleteTodo: (id: number) => void;
+  editTaskName: (id: number, newTaskName: string) => void;
+  editStatus: (id: number) => void;
+  editImportance: (id: number) => void;
+  editDueDateRange: (id: number, value: Date[] | null) => void;
 }
 
-function TodoList({ todoData, handleTodoItems, enableDrag }: TodoItemProps) {
+function TodoList({
+  todoItems,
+  handleTodoItems,
+  enableDrag,
+  deleteTodo,
+  editTaskName,
+  editStatus,
+  editImportance,
+  editDueDateRange
+}: TodoItemProps) {
   return (
     <DragProvider>
       <TodoItemDiv>
-        {/* {todoData.map((todo, index, array) => (
-          <DragNDrop
-            key={todo.id}
-            itemArray={array}
-            itemIndex={index}
-            updateItemArray={handleTodoItems}
-          >
-            <TodoItem
-              data={todo}
-              handleTodoItems={handleTodoItems}
-              wholeData={array}
-            />
-          </DragNDrop>
-        ))} */}
-        {todoData.map((todo, index, array) =>
+        {todoItems.map((todo, index, array) =>
           enableDrag ? (
             <DragNDrop
               key={todo.id}
@@ -43,16 +43,22 @@ function TodoList({ todoData, handleTodoItems, enableDrag }: TodoItemProps) {
             >
               <TodoItem
                 data={todo}
-                handleTodoItems={handleTodoItems}
-                wholeData={array}
+                deleteTodo={deleteTodo}
+                editTaskName={editTaskName}
+                editStatus={editStatus}
+                editImportance={editImportance}
+                editDueDateRange={editDueDateRange}
               />
             </DragNDrop>
           ) : (
             <TodoItem
               key={todo.id}
               data={todo}
-              handleTodoItems={handleTodoItems}
-              wholeData={array}
+              deleteTodo={deleteTodo}
+              editTaskName={editTaskName}
+              editStatus={editStatus}
+              editImportance={editImportance}
+              editDueDateRange={editDueDateRange}
             />
           )
         )}

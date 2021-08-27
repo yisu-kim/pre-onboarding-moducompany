@@ -1,67 +1,101 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/no-onchange */
 import styled from '@emotion/styled';
 import SortService from 'Components/Sort/SortService';
-import { Itodo } from 'Pages/Delete/Delete';
-import React, { useState, useEffect } from 'react';
-import saveDataToLocalStorage from 'Utils/SaveDataToLocalStorage';
+import React, { useState, useEffect, useCallback } from 'react';
+import useTodoItems, { Itodo } from 'hooks/useTodoItems';
 import TodoList from './TodoList';
 
-const TodoSeletedDiv = styled.div`
-  height: 10%;
-  background-color: #c9c9c9;
-`;
-
-const initialTodos: Itodo[] = [];
-
 const TodoContainer = () => {
-  const [sortState, setSortState] = useState('basic');
-  const [todoItems, setTodoItems] = useState(initialTodos);
-  const { fetchData, sortDate, sortImportance } = SortService();
+  const {
+    todoItems,
+    deleteTodo,
+    editTaskName,
+    editStatus,
+    editImportance,
+    editDueDateRange,
+    handleTodoItems
+  } = useTodoItems();
+
+  const [sortState, setSortState] = useState<string>('basic');
+  const [sortedItems, setSortedItems] = useState<Itodo[]>([]);
+  const { sortDate, sortImportance } = SortService();
+  const [isBasic, setIsBasic] = useState<boolean>(sortState === 'basic');
 
   const sortChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     setSortState(e.target.value);
   };
 
-  function todoSort(selectName: string) {
+  const todoSort = useCallback((selectName: string): Itodo[] => {
     switch (selectName) {
-      case 'basic':
-        setTodoItems(() => fetchData());
-        break;
       case 'Date':
-        setTodoItems((current) => sortDate(current));
-        break;
+        return sortDate(todoItems);
       case 'Importance':
-        setTodoItems((current) => sortImportance(current));
-        break;
+        return sortImportance(todoItems);
       default:
+        return todoItems;
     }
-  }
+  }, []);
 
   useEffect(() => {
-    todoSort(sortState);
-  }, [sortState]);
+    if (sortState === 'basic') {
+      setIsBasic(true);
+    } else {
+      setIsBasic(false);
+    }
 
-  const handleTodoItems = (newTodoItems: Itodo[]) => {
-    setTodoItems(newTodoItems);
-  };
+    const sorted = todoSort(sortState);
+    setSortedItems(sorted);
+  }, [sortState, todoSort]);
 
   return (
-    <div>
-      <TodoSeletedDiv>
-        <select onChange={sortChange} value={sortState}>
-          <option value="basic">기본정렬</option>
-          <option value="Date">생성일순</option>
-          <option value="Importance">중요도순</option>
-        </select>
-      </TodoSeletedDiv>
+    <Wrapper>
+      <TodoSelectedContainer>
+        <TodoSelectedDiv>
+          <SortButton src="https://ifh.cc/g/CbWQQv.png" alt="" />
+          <select onChange={sortChange} value={sortState}>
+            <option value="basic">기본정렬</option>
+            <option value="Date">생성일순</option>
+            <option value="Importance">중요도순</option>
+          </select>
+        </TodoSelectedDiv>
+      </TodoSelectedContainer>
       <TodoList
-        todoData={todoItems}
+        todoItems={isBasic ? todoItems : sortedItems}
+        deleteTodo={deleteTodo}
+        editTaskName={editTaskName}
+        editStatus={editStatus}
+        editImportance={editImportance}
+        editDueDateRange={editDueDateRange}
         handleTodoItems={handleTodoItems}
-        enableDrag={sortState === 'basic'}
+        enableDrag={isBasic}
       />
-    </div>
+    </Wrapper>
   );
 };
 
 export default TodoContainer;
+
+const Wrapper = styled.div`
+  animation-name: DocumentPalette;
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  border-radius: 50px;
+`;
+
+const TodoSelectedContainer = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+`;
+
+const TodoSelectedDiv = styled.div`
+  display: flex;
+  align-items: center;
+  height: 10%;
+  margin: 30px 30px 0 0;
+`;
+
+const SortButton = styled.img`
+  width: 20px;
+  margin-right: 5px;
+`;
