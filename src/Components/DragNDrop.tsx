@@ -67,8 +67,11 @@ const DragItem = styled.div<{ dragging: boolean }>`
   ${({ dragging }) =>
     dragging &&
     `
-    margin-bottom: 15px;
-    border: 2px dashed #0099FD;
+    margin: 20px;
+    border: 2px dashed #aeb9bf;
+    border-radius: 10px;
+    background: white;
+    opacity: 0.5;
     & > * {
       opacity: 0;
       pointer-events: none;
