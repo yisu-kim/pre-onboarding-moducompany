@@ -231,6 +231,7 @@ const Symbol = styled.div`
   height: 20px;
   background: ${(props) => props.color};
   border-radius: 50%;
+  cursor: pointer;
 `;
 
 const StatusDiv = styled.div`
@@ -244,6 +245,7 @@ const StatusDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 `;
 
 const CustomDatePicker = styled(DatePicker)`
