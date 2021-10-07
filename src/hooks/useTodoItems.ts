@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import getDataFromLocalStorage from 'Utils/GetDataFromLocalStorage';
-import saveDataToLocalStorage from 'Utils/SaveDataToLocalStorage';
-import dateFormat from 'Utils/Date';
+import getDataFromLocalStorage from 'Utils/getDataFromLocalStorage';
+import saveDataToLocalStorage from 'Utils/saveDataToLocalStorage';
+import dateFormat from 'Utils/date';
 import {
   DUE_DATE_RANGE,
   IMPORTANCE,

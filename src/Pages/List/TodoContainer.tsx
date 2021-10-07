@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import SortService from 'Pages/List/SortService';
+import SortService from 'Utils/sort';
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 import TodoContext from 'store/Todo';
 import { Itodo } from 'hooks/useTodoItems';

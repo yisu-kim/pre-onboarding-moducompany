@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect } from 'react';
 
-import getBiggestId from 'Utils/TodoForm';
-import dateFormat from 'Utils/Date';
+import getBiggestId from 'Utils/todo';
+import dateFormat from 'Utils/date';
 import {
   DUE_DATE_RANGE,
   STATUS_TYPE,

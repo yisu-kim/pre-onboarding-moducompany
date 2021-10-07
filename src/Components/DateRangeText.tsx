@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import dateFormat from 'Utils/Date';
+import dateFormat from 'Utils/date';
 
 interface DateRangeTextProps {
   dueDateRange: Date[];
