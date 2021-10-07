@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable jsx-a11y/no-onchange */
 import styled from '@emotion/styled';
 import SortService from 'Pages/List/SortService';
 import React, { useState, useEffect, useCallback, useContext } from 'react';
@@ -7,7 +5,7 @@ import TodoContext from 'store/Todo';
 import { Itodo } from 'hooks/useTodoItems';
 import TodoList from './TodoList';
 
-const TodoContainer = () => {
+const TodoContainer: React.FC = () => {
   const [sortState, setSortState] = useState<string>('basic');
   const [sortedItems, setSortedItems] = useState<Itodo[]>([]);
   const { sortDate, sortImportance } = SortService();

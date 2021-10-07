@@ -25,7 +25,17 @@ export type Itodo = {
 
 let initialTodos: Itodo[] = [];
 
-const useTodoItems = () => {
+const useTodoItems = (): {
+  todoItems: Itodo[];
+  setTodoItems: React.Dispatch<React.SetStateAction<Itodo[]>>;
+  addTodo: ({ todo }: { todo: Itodo }) => void;
+  deleteTodo: (id: number) => void;
+  editTaskName: (id: number, newTaskName: string) => void;
+  editStatus: (id: number) => void;
+  editImportance: (id: number) => void;
+  editDueDateRange: (id: number, value: Date[] | null) => void;
+  handleTodoItems: (newTodoItems: Itodo[]) => void;
+} => {
   const [todoItems, setTodoItems] = useState(initialTodos);
 
   useEffect(() => {
@@ -38,7 +48,7 @@ const useTodoItems = () => {
 
   const loadData = () => {
     const data = getDataFromLocalStorage(TODOS);
-    initialTodos = data === null ? [] : data;
+    initialTodos = (data as Itodo[] | null) === null ? [] : (data as Itodo[]);
     setTodoItems(initialTodos);
   };
 

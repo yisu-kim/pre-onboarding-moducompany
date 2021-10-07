@@ -21,13 +21,13 @@ const defaultValue: ITodoContext = {
     todoItems: []
   },
   actions: {
-    handleTodoItems: () => {},
-    deleteTodo: () => {},
-    addTodo: () => {},
-    editTaskName: () => {},
-    editStatus: () => {},
-    editImportance: () => {},
-    editDueDateRange: () => {}
+    handleTodoItems: () => undefined,
+    deleteTodo: () => undefined,
+    addTodo: () => undefined,
+    editTaskName: () => undefined,
+    editStatus: () => undefined,
+    editImportance: () => undefined,
+    editDueDateRange: () => undefined
   }
 };
 

@@ -1,6 +1,10 @@
 import { useState } from 'react';
 
-const useRangePickerVisible = () => {
+const useRangePickerVisible = (): {
+  rangePickerOpen: boolean;
+  handleRangePickerVisibleToggle: () => void;
+  handleCloseButtonClick: () => void;
+} => {
   const [rangePickerOpen, setRangePickerOpen] = useState(false);
 
   const handleRangePickerVisibleToggle = () => {

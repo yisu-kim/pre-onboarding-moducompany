@@ -1,7 +1,13 @@
 import styled from '@emotion/styled';
 import dateFormat from 'Utils/Date';
 
-const DateRangeText = ({ dueDateRange }: { dueDateRange: Date[] }) => {
+interface DateRangeTextProps {
+  dueDateRange: Date[];
+}
+
+const DateRangeText: React.FC<DateRangeTextProps> = ({
+  dueDateRange
+}: DateRangeTextProps) => {
   const [startDate, endDate] = dueDateRange;
 
   return (

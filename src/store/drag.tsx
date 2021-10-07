@@ -23,8 +23,8 @@ const defaultValue: IDragContext = {
     dragItemIndex: null
   },
   actions: {
-    setDragging: () => {},
-    updateDragItemIndex: () => {}
+    setDragging: () => undefined,
+    updateDragItemIndex: () => undefined
   }
 };
 

@@ -24,7 +24,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   onCloseClick,
   onSaveClick,
   editMode
-}) => {
+}: DatePickerProps) => {
   const [dateRange, setDateRange] = useState<Range[]>([
     getDefaultDueDateRange({ dueDateRange })
   ]);
