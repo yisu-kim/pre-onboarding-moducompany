@@ -6,7 +6,7 @@ interface AppLayoutProps {
   children: React.ReactNode;
 }
 
-const AppLayout: React.FC<AppLayoutProps> = ({ children }) => (
+const AppLayout: React.FC<AppLayoutProps> = ({ children }: AppLayoutProps) => (
   <>
     <Header />
     <Main>{children}</Main>
