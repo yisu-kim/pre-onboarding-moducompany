@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import DragNDrop from 'Components/DragNDrop';
 import { Itodo } from 'hooks/useTodoItems';
+import React from 'react';
 import { DragProvider } from 'store/drag';
 import TodoItem from './TodoItem';
 
@@ -20,7 +21,7 @@ interface TodoItemProps {
   editDueDateRange: (id: number, value: Date[] | null) => void;
 }
 
-function TodoList({
+const TodoList: React.FC<TodoItemProps> = ({
   todoItems,
   handleTodoItems,
   enableDrag,
@@ -29,7 +30,7 @@ function TodoList({
   editStatus,
   editImportance,
   editDueDateRange
-}: TodoItemProps) {
+}: TodoItemProps) => {
   return (
     <DragProvider>
       <TodoItemDiv>
@@ -65,6 +66,6 @@ function TodoList({
       </TodoItemDiv>
     </DragProvider>
   );
-}
+};
 
 export default TodoList;

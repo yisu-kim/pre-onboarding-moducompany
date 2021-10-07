@@ -5,7 +5,7 @@ import TodoContext from 'store/Todo';
 import { Itodo } from 'hooks/useTodoItems';
 import TodoList from './TodoList';
 
-const TodoContainer = () => {
+const TodoContainer: React.FC = () => {
   const [sortState, setSortState] = useState<string>('basic');
   const [sortedItems, setSortedItems] = useState<Itodo[]>([]);
   const { sortDate, sortImportance } = SortService();

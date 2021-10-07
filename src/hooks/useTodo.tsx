@@ -47,7 +47,27 @@ const createInitialTodoWithId = (id: number): Itodo => ({
 const getLattestId = (todoItems: Itodo[]) =>
   todoItems?.length === 0 ? 0 : getBiggestId({ data: todoItems });
 
-const useTodo = ({ todoItems }: { todoItems: Itodo[] }) => {
+const useTodo = ({
+  todoItems
+}: {
+  todoItems: Itodo[];
+}): {
+  todo: Itodo;
+  handleChange: <T extends string>({
+    name,
+    value
+  }: {
+    name: T | Name;
+    value: number | string | Date[];
+  }) => void;
+  handleInputChange: (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => void;
+  handleDateRangeChange: ({ value }: { value: Date[] }) => void;
+  clearTodoInput: () => void;
+} => {
   const [todo, setTodo] = useState<Itodo>(createInitialTodoWithId(0));
 
   useEffect(() => {

@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import { useState, useRef, useContext } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import styled from '@emotion/styled';
 import { Itodo } from 'hooks/useTodoItems';
 import useTodo from 'hooks/useTodo';
@@ -26,14 +26,14 @@ interface TodoItemProps {
   editDueDateRange: (id: number, value: Date[] | null) => void;
 }
 
-function TodoItem({
+const TodoItem: React.FC<TodoItemProps> = ({
   data,
   deleteTodo,
   editTaskName,
   editStatus,
   editImportance,
   editDueDateRange
-}: TodoItemProps) {
+}: TodoItemProps) => {
   const {
     state: { todoItems }
   } = useContext(TodoContext);
@@ -179,7 +179,7 @@ function TodoItem({
       )}
     </TodoItemDiv>
   );
-}
+};
 
 export default TodoItem;
 

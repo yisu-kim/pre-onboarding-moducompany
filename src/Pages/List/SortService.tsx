@@ -1,13 +1,9 @@
-import { TODOS } from 'Constants';
 import { Itodo } from 'hooks/useTodoItems';
-import getDataFromLocalStorage from 'Utils/GetDataFromLocalStorage';
 
-function SortService() {
-  const fetchData = () => {
-    const data = getDataFromLocalStorage(TODOS);
-    return data;
-  };
-
+const SortService = (): {
+  sortDate: (current: Itodo[]) => Itodo[];
+  sortImportance: (current: Itodo[]) => Itodo[];
+} => {
   const sortDate = (current: Itodo[]) => {
     const sortD = [...current].sort((a, b) =>
       a.createdAt.localeCompare(b.createdAt)
@@ -22,6 +18,6 @@ function SortService() {
     return sortI;
   };
 
-  return { fetchData, sortDate, sortImportance };
-}
+  return { sortDate, sortImportance };
+};
 export default SortService;

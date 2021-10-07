@@ -10,7 +10,7 @@ const getDefaultDueDateRange = ({
   dueDateRange
 }: {
   dueDateRange: Date[] | null;
-}) => {
+}): Range => {
   if (!dueDateRange) {
     return initialDateRange;
   }

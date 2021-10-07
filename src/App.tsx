@@ -4,7 +4,7 @@ import TodoContainer from 'Pages/List/TodoContainer';
 import { TodoProvider } from 'store/Todo';
 import Reset from 'Styles/Reset';
 
-function App() {
+const App: React.FC = () => {
   return (
     <>
       <Global styles={Reset} />
@@ -15,6 +15,6 @@ function App() {
       </TodoProvider>
     </>
   );
-}
+};
 
 export default App;

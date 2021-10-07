@@ -6,7 +6,7 @@ const getBiggestId = <
   data
 }: {
   data: T[];
-}) => {
+}): number => {
   const numbers = data.map((item: T) => item.id);
 
   return Math.max(...numbers);
