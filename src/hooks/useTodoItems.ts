@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import getDataFromLocalStorage from 'Utils/getDataFromLocalStorage';
-import saveDataToLocalStorage from 'Utils/saveDataToLocalStorage';
-import dateFormat from 'Utils/date';
+import getDataFromLocalStorage from 'utils/getDataFromLocalStorage';
+import saveDataToLocalStorage from 'utils/saveDataToLocalStorage';
+import dateFormat from 'utils/date';
 import {
   DUE_DATE_RANGE,
   IMPORTANCE,
@@ -10,7 +10,7 @@ import {
   TASK_NAME,
   TODOS,
   IMPORTANCE_TYPE_NUMBER
-} from 'Constants';
+} from 'utils/constants';
 
 export type Itodo = {
   id: number;

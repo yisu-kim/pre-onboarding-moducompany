@@ -3,7 +3,7 @@ import { DateRange, OnDateRangeChangeProps, Range } from 'react-date-range';
 import { ko } from 'date-fns/locale';
 import styled from '@emotion/styled';
 
-import getDefaultDueDateRange from 'Utils/rangePicker';
+import getDefaultDueDateRange from 'utils/rangePicker';
 
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';

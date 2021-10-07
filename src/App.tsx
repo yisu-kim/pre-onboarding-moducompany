@@ -1,8 +1,8 @@
 import { Global } from '@emotion/react';
-import AppLayout from 'Components/AppLayout';
-import TodoContainer from 'Pages/List/TodoContainer';
-import { TodoProvider } from 'store/Todo';
-import Reset from 'Styles/Reset';
+import AppLayout from 'components/AppLayout';
+import TodoContainer from 'pages/todo/TodoContainer';
+import { TodoProvider } from 'store/todo';
+import Reset from 'styles/reset';
 
 const App: React.FC = () => {
   return (

@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { Itodo } from 'hooks/useTodoItems';
 import useTodo from 'hooks/useTodo';
 import useRangePickerVisible from 'hooks/useRangePickerVisible';
-import DatePicker from 'Components/DatePicker';
+import DatePicker from 'components/DatePicker';
 import {
   CALENDAR_ICON,
   CANCEL_ICON,
@@ -13,9 +13,9 @@ import {
   PENCIL_ICON,
   STATUS_TYPE,
   TRASH_ICON
-} from 'Constants';
-import DateRangeText from 'Components/DateRangeText';
-import TodoContext from 'store/Todo';
+} from 'utils/constants';
+import DateRangeText from 'components/DateRangeText';
+import TodoContext from 'store/todo';
 
 interface TodoItemProps {
   data: Itodo;

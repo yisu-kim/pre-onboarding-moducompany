@@ -8,9 +8,9 @@ import { css } from '@emotion/react';
 import useTodo, { IMPORTANCE_OPTIONS } from 'hooks/useTodo';
 import useRangePickerVisible from 'hooks/useRangePickerVisible';
 
-import dateFormat from 'Utils/date';
+import dateFormat from 'utils/date';
 
-import TodoContext from 'store/Todo';
+import TodoContext from 'store/todo';
 import DatePicker from './DatePicker';
 import DateRangeText from './DateRangeText';
 

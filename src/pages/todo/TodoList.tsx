@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import DragNDrop from 'Components/DragNDrop';
+import DragNDrop from 'components/DragNDrop';
 import { Itodo } from 'hooks/useTodoItems';
 import React from 'react';
 import { DragProvider } from 'store/drag';

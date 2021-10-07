@@ -1,13 +1,13 @@
 import React, { useCallback, useState, useEffect } from 'react';
 
-import getBiggestId from 'Utils/todo';
-import dateFormat from 'Utils/date';
+import getBiggestId from 'utils/todo';
+import dateFormat from 'utils/date';
 import {
   DUE_DATE_RANGE,
   STATUS_TYPE,
   IMPORTANCE_TYPE,
   IMPORTANCE_TYPE_NUMBER
-} from 'Constants';
+} from 'utils/constants';
 import { Itodo } from './useTodoItems';
 
 type Name = 'id' | 'taskName' | 'dueDateRange' | 'importance';
