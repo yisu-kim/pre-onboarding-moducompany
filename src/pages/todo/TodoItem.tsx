@@ -185,7 +185,6 @@ const TodoItemDiv = styled.div<{ isComplete: boolean }>`
   padding: 20px;
   background-color: #ffffff;
   border-radius: 10px;
-  margin: 20px;
   ${({ isComplete }) =>
     isComplete &&
     `

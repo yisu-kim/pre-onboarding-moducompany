@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { SiTodoist } from 'react-icons/si';
-import TodoForm from './TodoForm';
+import TodoForm from 'pages/todo/TodoForm';
 
 const Header: React.FC = () => (
   <Head>
@@ -15,7 +15,6 @@ const Head = styled.header`
   position: sticky;
   top: 0;
   left: 0;
-  margin-bottom: 40px;
   padding: 30px 40px;
   text-align: center;
   border-bottom: 1px solid #eee;
