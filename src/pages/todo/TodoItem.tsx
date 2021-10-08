@@ -84,7 +84,6 @@ const TodoItem: React.FC<TodoItemProps> = ({
     <TodoItemDiv isComplete={data.status === FINISHED}>
       <TodoItemInfoDiv>
         <TopDiv>
-          {' '}
           {data.importance === '3' ? (
             <Symbol
               color={GREEN}
@@ -124,36 +123,8 @@ const TodoItem: React.FC<TodoItemProps> = ({
             </StatusDiv>
           )}
         </TopDiv>
-      </TodoItemInfoDiv>
-      <TodoItemInfoDiv>
-        {taskNameEditMode ? (
-          <input
-            placeholder="To do what"
-            onKeyPress={(e) => handleEnterPress(e, data.id)}
-            ref={inputEl}
-          />
-        ) : (
-          <div>
-            <span>{data.taskName}</span>
-          </div>
-        )}
-      </TodoItemInfoDiv>
-      <TodoItemInfoDiv>
         <DueDateRangeDiv>
           <DateRangeText dueDateRange={data.dueDateRange} />
-        </DueDateRangeDiv>
-        <div>
-          {taskNameEditMode ? (
-            <ConfirmBtn
-              src={CONFIRM_ICON}
-              onClick={() => handleTaskNameEdit(data.id)}
-            />
-          ) : (
-            <TaskNameEditBtn
-              src={PENCIL_ICON}
-              onClick={() => setTaskNameEditMode((prev) => !prev)}
-            />
-          )}
           {rangePickerOpen ? (
             <CancelBtn
               src={CANCEL_ICON}
@@ -165,8 +136,34 @@ const TodoItem: React.FC<TodoItemProps> = ({
               onClick={handleRangePickerVisibleToggle}
             />
           )}
+        </DueDateRangeDiv>
+      </TodoItemInfoDiv>
+      <TodoItemInfoDiv>
+        <TaskName>
+          {taskNameEditMode ? (
+            <input
+              placeholder="To do what"
+              onKeyPress={(e) => handleEnterPress(e, data.id)}
+              ref={inputEl}
+            />
+          ) : (
+            <TaskNameParagraph>{data.taskName}</TaskNameParagraph>
+          )}
+        </TaskName>
+        <TaskControlDiv>
+          {taskNameEditMode ? (
+            <ConfirmBtn
+              src={CONFIRM_ICON}
+              onClick={() => handleTaskNameEdit(data.id)}
+            />
+          ) : (
+            <TaskNameEditBtn
+              src={PENCIL_ICON}
+              onClick={() => setTaskNameEditMode((prev) => !prev)}
+            />
+          )}
           <TrashBtn src={TRASH_ICON} onClick={() => handleDelete(data.id)} />
-        </div>
+        </TaskControlDiv>
       </TodoItemInfoDiv>
       {rangePickerOpen && (
         <CustomDatePicker
@@ -202,7 +199,13 @@ const TodoItemInfoDiv = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  margin: 28px 0;
+  &:first-child {
+    margin-top: 0;
+  }
+  &:last-child {
+    margin-bottom: 0;
+  }
 `;
 
 const TopDiv = styled.div`
@@ -210,7 +213,22 @@ const TopDiv = styled.div`
 `;
 
 const DueDateRangeDiv = styled.div`
-  font-size: 8px;
+  display: flex;
+  flex-direction: row;
+  font-size: 11px;
+  align-items: center;
+`;
+
+const TaskName = styled.div`
+  flex: 1;
+`;
+
+const TaskNameParagraph = styled.p`
+  word-break: break-all;
+`;
+
+const TaskControlDiv = styled.div`
+  margin-left: 10px;
 `;
 
 const Button = styled.img`
@@ -223,8 +241,12 @@ const Button = styled.img`
 const TrashBtn = styled(Button)``;
 const ConfirmBtn = styled(Button)``;
 const TaskNameEditBtn = styled(Button)``;
-const CancelBtn = styled(Button)``;
-const DueDateRangeEditBtn = styled(Button)``;
+const CancelBtn = styled(Button)`
+  margin-left: 10px;
+`;
+const DueDateRangeEditBtn = styled(Button)`
+  margin-left: 10px;
+`;
 
 const Symbol = styled.div`
   width: 20px;

@@ -25,10 +25,6 @@ const DateRangeText: React.FC<DateRangeTextProps> = ({
 };
 
 const Wrap = styled.p`
-  span {
-    vertical-align: middle;
-    line-height: 1;
-  }
   span + span {
     margin-left: 5px;
   }
