@@ -85,19 +85,20 @@ const Wrapper = styled.div`
   animation-duration: 10s;
   animation-iteration-count: infinite;
   animation-direction: alternate;
-  border-radius: 50px;
+  border-radius: 10px;
+  margin: 20px 0;
+  padding: 20px;
 `;
 
 const TodoSelectedContainer = styled.div`
   display: flex;
   flex-direction: row-reverse;
+  margin-bottom: 10px;
 `;
 
 const TodoSelectedDiv = styled.div`
   display: flex;
   align-items: center;
-  height: 10%;
-  margin: 30px 30px 0 0;
 `;
 
 const SortButton = styled.img`

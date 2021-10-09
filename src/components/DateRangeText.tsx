@@ -12,7 +12,6 @@ const DateRangeText: React.FC<DateRangeTextProps> = ({
 
   return (
     <Wrap>
-      <span>⏱</span>
       <span>
         {dueDateRange && dateFormat({ targetDate: new Date(startDate) })}
       </span>
@@ -24,14 +23,8 @@ const DateRangeText: React.FC<DateRangeTextProps> = ({
   );
 };
 
-const Wrap = styled.p`
-  span {
-    vertical-align: middle;
-    line-height: 1;
-  }
-  span + span {
-    margin-left: 5px;
-  }
+const Wrap = styled.div`
+  margin-left: 5px;
 `;
 
 export default DateRangeText;

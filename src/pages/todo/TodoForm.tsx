@@ -8,11 +8,9 @@ import { css } from '@emotion/react';
 import useTodo, { IMPORTANCE_OPTIONS } from 'hooks/useTodo';
 import useRangePickerVisible from 'hooks/useRangePickerVisible';
 
-import dateFormat from 'utils/date';
-
 import TodoContext from 'store/todo';
-import DatePicker from './DatePicker';
-import DateRangeText from './DateRangeText';
+import DatePicker from 'components/DatePicker';
+import DateRangeText from 'components/DateRangeText';
 
 const TodoForm: FC = () => {
   const {
@@ -48,23 +46,21 @@ const TodoForm: FC = () => {
 
   return (
     <FormWrap onSubmit={handleSubmit}>
-      <Today>Today is, {dateFormat({ targetDate: new Date() })}</Today>
       <form>
         <FormTop>
-          <InputBox>
-            <input
-              name="taskName"
-              value={taskName}
-              onChange={handleInputChange}
-            />
-            <IconButton
-              type="button"
-              onClick={handleRangePickerVisibleToggle}
-              active={rangePickerOpen}
-            >
-              <FaCalendarAlt />
-            </IconButton>
-          </InputBox>
+          <InputBox
+            name="taskName"
+            value={taskName}
+            onChange={handleInputChange}
+          ></InputBox>
+          <IconButton
+            type="button"
+            onClick={handleRangePickerVisibleToggle}
+            active={rangePickerOpen}
+          >
+            <FaCalendarAlt />
+            {dueDateRange && <DateRangeText dueDateRange={dueDateRange} />}
+          </IconButton>
           <Select>
             <select
               name="importance"
@@ -82,11 +78,8 @@ const TodoForm: FC = () => {
             </select>
             <MdKeyboardArrowDown />
           </Select>
+          <SubmitButton type="submit">추가</SubmitButton>
         </FormTop>
-
-        {dueDateRange && <DateRangeText dueDateRange={dueDateRange} />}
-
-        <Button type="submit">추가</Button>
 
         {rangePickerOpen && (
           <CustomDatePicker
@@ -102,53 +95,40 @@ const TodoForm: FC = () => {
 
 const FormWrap = styled.div`
   display: inline-block;
-  max-width: 500px;
+  max-width: 700px;
   width: 100%;
   form {
     position: relative;
   }
 `;
 
-const Today = styled.p`
-  margin-bottom: 20px;
-  font-size: 17px;
-  color: #aeb9bf;
-`;
-
 const FormTop = styled.div`
+  width: 100%;
   display: flex;
-  & + button {
-    margin-top: 20px;
-  }
-  & + p {
-    margin: 20px 0;
+  & > input {
+    flex: 1;
   }
   & > * + * {
     margin-left: 5px;
   }
   @media screen and (max-width: 420px) {
-    flex-direction: column;
-
+    flex-wrap: wrap;
+    & > input,
+    & > button[type='button'] {
+      width: 100%;
+    }
+    & > button[type='submit'] {
+      margin-left: auto;
+    }
     & > * + * {
-      margin: 5px 0 0 0;
+      margin: 5px 0 0;
     }
   }
 `;
 
-const InputBox = styled.p`
-  display: flex;
-  flex: 1;
+const InputBox = styled.input`
   height: 37px;
   border: 1px solid #dcdcdc;
-  input {
-    flex: 1;
-    padding: 10px;
-    border: none;
-    outline: none;
-  }
-  button {
-    border: none;
-  }
 `;
 
 const CustomDatePicker = styled(DatePicker)`
@@ -209,6 +189,9 @@ const Select = styled.p`
 `;
 
 const IconButton = styled(Button)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 10px;
   ${({ active }: { active?: boolean }) =>
     active &&
@@ -216,6 +199,15 @@ const IconButton = styled(Button)`
       color: #0099fd;
       border-color: #0099fd;
     `}
+`;
+
+const SubmitButton = styled(Button)`
+  background-color: #0099fd;
+  color: #fff;
+  border: none;
+  &:hover {
+    color: #fff;
+  }
 `;
 
 export default TodoForm;

@@ -5,11 +5,6 @@ import React from 'react';
 import { DragProvider } from 'store/drag';
 import TodoItem from './TodoItem';
 
-const TodoItemDiv = styled.div`
-  width: 100%;
-  padding: 10px;
-`;
-
 interface TodoItemProps {
   todoItems: Itodo[];
   handleTodoItems: (newTodoItems: Itodo[]) => void;
@@ -69,3 +64,16 @@ const TodoList: React.FC<TodoItemProps> = ({
 };
 
 export default TodoList;
+
+const TodoItemDiv = styled.div`
+  width: 100%;
+  & > div {
+    margin: 20px 0;
+  }
+  & > div:first-child {
+    margin-top: 0;
+  }
+  & > div:last-child {
+    margin-bottom: 0;
+  }
+`;
