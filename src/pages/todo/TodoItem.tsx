@@ -123,20 +123,6 @@ const TodoItem: React.FC<TodoItemProps> = ({
             </StatusDiv>
           )}
         </TopDiv>
-        <DueDateRangeDiv>
-          <DateRangeText dueDateRange={data.dueDateRange} />
-          {rangePickerOpen ? (
-            <CancelBtn
-              src={CANCEL_ICON}
-              onClick={handleRangePickerVisibleToggle}
-            />
-          ) : (
-            <DueDateRangeEditBtn
-              src={CALENDAR_ICON}
-              onClick={handleRangePickerVisibleToggle}
-            />
-          )}
-        </DueDateRangeDiv>
       </TodoItemInfoDiv>
       <TodoItemInfoDiv>
         <TaskName>
@@ -164,6 +150,22 @@ const TodoItem: React.FC<TodoItemProps> = ({
           )}
           <TrashBtn src={TRASH_ICON} onClick={() => handleDelete(data.id)} />
         </TaskControlDiv>
+      </TodoItemInfoDiv>
+      <TodoItemInfoDiv>
+        <DueDateRangeDiv>
+          {rangePickerOpen ? (
+            <CancelBtn
+              src={CANCEL_ICON}
+              onClick={handleRangePickerVisibleToggle}
+            />
+          ) : (
+            <DueDateRangeEditBtn
+              src={CALENDAR_ICON}
+              onClick={handleRangePickerVisibleToggle}
+            />
+          )}
+          <DateRangeText dueDateRange={data.dueDateRange} />
+        </DueDateRangeDiv>
       </TodoItemInfoDiv>
       {rangePickerOpen && (
         <CustomDatePicker
@@ -198,7 +200,7 @@ const TodoItemInfoDiv = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 28px 0;
+  margin: 12px 0;
   &:first-child {
     margin-top: 0;
   }
@@ -213,13 +215,13 @@ const TopDiv = styled.div`
 
 const DueDateRangeDiv = styled.div`
   display: flex;
-  flex-direction: row;
-  font-size: 11px;
   align-items: center;
+  font-size: 11px;
 `;
 
 const TaskName = styled.div`
   flex: 1;
+  margin-left: 10px;
 `;
 
 const TaskNameParagraph = styled.p`
@@ -241,10 +243,12 @@ const TrashBtn = styled(Button)``;
 const ConfirmBtn = styled(Button)``;
 const TaskNameEditBtn = styled(Button)``;
 const CancelBtn = styled(Button)`
-  margin-left: 10px;
+  margin: 0;
+  height: 12px;
 `;
 const DueDateRangeEditBtn = styled(Button)`
-  margin-left: 10px;
+  margin: 0;
+  height: 12px;
 `;
 
 const Symbol = styled.div`
@@ -267,6 +271,9 @@ const StatusDiv = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  & > span {
+    white-space: pre;
+  }
 `;
 
 const CustomDatePicker = styled(DatePicker)`
