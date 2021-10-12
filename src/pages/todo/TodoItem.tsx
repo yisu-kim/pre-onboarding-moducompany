@@ -201,7 +201,7 @@ const TodoItemInfoDiv = styled.div`
   justify-content: space-between;
   align-items: center;
   margin: 12px 0;
-  &:first-child {
+  &:first-of-type {
     margin-top: 0;
   }
   &:last-child {
