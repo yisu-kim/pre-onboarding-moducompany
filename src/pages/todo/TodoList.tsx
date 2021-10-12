@@ -70,7 +70,7 @@ const TodoItemDiv = styled.div`
   & > div {
     margin: 20px 0;
   }
-  & > div:first-child {
+  & > div:first-of-type {
     margin-top: 0;
   }
   & > div:last-child {
